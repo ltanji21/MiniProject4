@@ -13,19 +13,62 @@ suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
 ```
 
+Getting directors 
 ```{r, message=FALSE, echo=FALSE}
-cast_info <- dbConnect_scidb(dbname = "imdb")
-class(cast_info)
+all_directors <- dbConnect_scidb(dbname = "imdb")
+class(all_directors)
 
-cast_info <- cast_info %>%
-  dbGetQuery("SELECT DISTINCT title.id, movie_id, title, kind_id, production_year, link_type_id
-FROM imdb.title
-JOIN movie_link
-ON title.id = movie_link.movie_id
-WHERE kind_id = '1';")
+all_directors <- all_directors %>%
+  dbGetQuery("SELECT person_id, movie_id, role_id
+             FROM cast_info 
+             WHERE role_id = 8;")
 ```
 
+Filing in Movie titles in `directors` table
+```{r}
+movies <- dbConnect_scidb(dbname = "imdb")
+class(movies)
 
+
+movies <- movies %>%
+  dbGetQuery("SELECT id, title, kind_id, production_year
+             FROM title
+             WHERE kind_id = 1;")
+
+
+list2env(movies, envir = .GlobalEnv)
+movies <- rename(movies, movie_id = id)
+
+
+movie_directors <- all_directors %>%
+  inner_join(movies, by = "movie_id")
+```
+
+Combining information about the directors to the 'movie_directors' table. 
+```{r}
+director_info <- dbConnect_scidb(dbname = "imdb")
+class(director_info)
+
+
+director_info <- director_info %>%
+  dbGetQuery("SELECT id, name, gender 
+             FROM imdb.name 
+             WHERE gender = 'f';")
+
+
+list2env(movies, envir = .GlobalEnv)
+director_info<- rename(director_info, person_id = id)
+
+
+female_directors <- movie_directors %>%
+  inner_join(director_info, by = "person_id")
+```
+
+Clean Up the table od female directors.
+```{r}
+female_directors <- female_directors %>%
+  select(production_year, title, name)
+```
 
 
 
