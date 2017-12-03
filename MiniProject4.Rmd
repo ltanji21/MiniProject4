@@ -80,6 +80,7 @@ female_directors_year <- ggplot(female_director_no, aes(x = production_year, y =
   xlab("Production Year") + 
   ggtitle("Number of films produced by women per year") +
   geom_line() +
+  geom_point(colour = "red", aes(x = 2016, y = 5688)) +
   annotate("text", x = 1950, y = 5688, label = "2016 had most films (5688) directed by women", colour = "red", size = 2.5)
 
 female_directors_year
