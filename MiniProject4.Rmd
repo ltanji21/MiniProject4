@@ -62,7 +62,7 @@ all_directors_info <- movie_directors %>%
   inner_join(director_info, by = "person_id")
 ```
 
-Clean Up the table od female directors and look at their number of movie productions per year.
+Clean Up the table of female directors and look at their number of movie productions per year.
 ```{r}
 female_director_no <- all_directors_info %>%
   group_by(production_year) %>%
@@ -70,9 +70,37 @@ female_director_no <- all_directors_info %>%
   summarize(female_director = n())
 ```
 
-Looking at male directors  fo comparison
+Looking at male directors  for comparison
 ```{r}
+male_director_no <- all_directors_info %>%
+  group_by(production_year) %>%
+  filter(gender == "m" & production_year >= 1896 & production_year <= 2017) %>%
+  summarize(male_director = n())
+```
 
+
+Making a ggplot of films produced by females per year.
+```{r, message=FALSE, error= FALSE, echo=FALSE}
+female_directors_year <- ggplot(female_director_no, aes(x = production_year, y = female_director)) + geom_point(alpha = .3) +
+  ylab("Number of films directed") + 
+  xlab("Production Year") + 
+  ggtitle("Number of films produced by women per year") +
+  geom_line() +
+  geom_point(colour = "red", aes(x = 2016, y = 5688)) +
+  annotate("text", x = 1950, y = 5688, label = "2016 had most films (5688) directed by women", colour = "red", size = 2.5)
+
+female_directors_year
+```
+
+Doing the same thing for Males, ggplot of gilms produced by males per year.
+```{r}
+male_directors_year <- ggplot(male_director_no, aes(x = production_year, y = male_director)) + geom_point(alpha = .3) +
+  ylab("Number of films directed") + 
+  xlab("Production Year") + 
+  ggtitle("Number of films produced by men per year") +
+  geom_line()
+
+male_directors_year
 ```
 
 Looking at number of films produced by each film director. 
@@ -83,21 +111,6 @@ no_films_director <- female_directors %>%
   summarize(film_no = n()) %>%
   arrange(desc(film_no))
 ```
-
-```{r, message=FALSE, error= FALSE, echo=FALSE}
-female_directors_year <- ggplot(female_director_no, aes(x = production_year, y = female_director)) + 
-  geom_point(alpha = .3) + 
-  ylab("Number of films directed by women") + 
-  xlab("Production Year") + 
-  ggtitle("Number of films produced by women per year") +
-  geom_line() +
-  geom_point(colour = "red", aes(x = 2016, y = 5688)) +
-  annotate("text", x = 1950, y = 5688, label = "2016 had most films (5688) directed by women", colour = "red", size = 2.5)
-
-female_directors_year
-```
-
-
 
 
 
