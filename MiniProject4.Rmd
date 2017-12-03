@@ -59,17 +59,20 @@ list2env(director_info, envir = .GlobalEnv)
 director_info<- rename(director_info, person_id = id)
 
 all_directors_info <- movie_directors %>%
-  inner_join(director_info, by = "person_id") %>%
-  select(production_year, title, name) 
+  inner_join(director_info, by = "person_id")
 ```
 
 Clean Up the table od female directors and look at their number of movie productions per year.
 ```{r}
-female_director_no <- female_directors %>%
-  select(production_year, title, name) %>%
+female_director_no <- all_directors_info %>%
   group_by(production_year) %>%
-  filter(production_year >= 1896 & production_year <= 2017) %>%
+  filter(gender == "f" & production_year >= 1896 & production_year <= 2017) %>%
   summarize(female_director = n())
+```
+
+Looking at male directors  fo comparison
+```{r}
+
 ```
 
 Looking at number of films produced by each film director. 
