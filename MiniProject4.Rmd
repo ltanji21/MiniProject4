@@ -13,7 +13,7 @@ suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
 ```
 
-Getting directors 
+Getting just directors 
 ```{r, message=FALSE, echo=FALSE}
 all_directors <- dbConnect_scidb(dbname = "imdb")
 class(all_directors)
@@ -50,18 +50,17 @@ director_info <- dbConnect_scidb(dbname = "imdb")
 class(director_info)
 
 
-director_info <- director_info %>%
+director_info<- director_info %>%
   dbGetQuery("SELECT id, name, gender 
-             FROM imdb.name 
-             WHERE gender = 'f';")
+             FROM imdb.name;")
 
+list2env(director_info, envir = .GlobalEnv)
 
-list2env(movies, envir = .GlobalEnv)
 director_info<- rename(director_info, person_id = id)
 
-
-female_directors <- movie_directors %>%
-  inner_join(director_info, by = "person_id")
+all_directors_info <- movie_directors %>%
+  inner_join(director_info, by = "person_id") %>%
+  select(production_year, title, name) 
 ```
 
 Clean Up the table od female directors and look at their number of movie productions per year.
@@ -71,6 +70,15 @@ female_director_no <- female_directors %>%
   group_by(production_year) %>%
   filter(production_year >= 1896 & production_year <= 2017) %>%
   summarize(female_director = n())
+```
+
+Looking at number of films produced by each film director. 
+```{r}
+no_films_director <- female_directors %>%
+  group_by(name) %>%
+  filter(production_year >= 1896 & production_year <= 2017) %>%
+  summarize(film_no = n()) %>%
+  arrange(desc(film_no))
 ```
 
 ```{r, message=FALSE, error= FALSE, echo=FALSE}
