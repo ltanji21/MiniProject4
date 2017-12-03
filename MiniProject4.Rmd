@@ -64,10 +64,25 @@ female_directors <- movie_directors %>%
   inner_join(director_info, by = "person_id")
 ```
 
-Clean Up the table od female directors.
+Clean Up the table od female directors and look at their number of movie productions per year.
 ```{r}
-female_directors <- female_directors %>%
-  select(production_year, title, name)
+female_director_no <- female_directors %>%
+  select(production_year, title, name) %>%
+  group_by(production_year) %>%
+  filter(production_year >= 1896 & production_year <= 2017) %>%
+  summarize(female_director = n())
+```
+
+```{r, message=FALSE, error= FALSE, echo=FALSE}
+female_directors_year <- ggplot(female_director_no, aes(x = production_year, y = female_director)) + 
+  geom_point(alpha = .3) + 
+  ylab("Number of films directed by women") + 
+  xlab("Production Year") + 
+  ggtitle("Number of films produced by women per year") +
+  geom_line() +
+  annotate("text", x = 1950, y = 5688, label = "2016 had most films (5688) directed by women", colour = "red", size = 2.5)
+
+female_directors_year
 ```
 
 
