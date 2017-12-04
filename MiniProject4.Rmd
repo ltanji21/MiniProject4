@@ -62,7 +62,15 @@ all_directors_info <- movie_directors %>%
   inner_join(director_info, by = "person_id")
 ```
 
-Clean Up the table of female directors and look at their number of movie productions per year.
+Get number of directors per year.
+```{r}
+director_no <- all_directors_info %>%
+  group_by(production_year) %>%
+  filter(is.na(gender)) %>%
+  summarize(no_directors = n())
+```
+
+Joining the number of firectors total table to number of female directors table.
 ```{r}
 female_director_no <- all_directors_info %>%
   group_by(production_year) %>%
@@ -70,47 +78,31 @@ female_director_no <- all_directors_info %>%
   summarize(female_director = n())
 ```
 
-Looking at male directors  for comparison
+Getting the percentage of female directors by year. 
 ```{r}
-male_director_no <- all_directors_info %>%
-  group_by(production_year) %>%
-  filter(gender == "m" & production_year >= 1896 & production_year <= 2017) %>%
-  summarize(male_director = n())
+female_director_ratio <- female_director_no %>%
+  inner_join(director_no, by = "production_year") %>%
+   group_by(production_year) %>%
+  summarise(ratio_f_directors = (female_director/no_directors)*100)
+  
 ```
 
-
-Making a ggplot of films produced by females per year.
+Making a ggplot of ratio of females per year.
 ```{r, message=FALSE, error= FALSE, echo=FALSE}
-female_directors_year <- ggplot(female_director_no, aes(x = production_year, y = female_director)) + geom_point(alpha = .3) +
-  ylab("Number of films directed") + 
+female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
+  geom_point(alpha = .3) +
+  ylab("percentage of female directors") + 
   xlab("Production Year") + 
-  ggtitle("Number of films produced by women per year") +
-  geom_line() +
-  geom_point(colour = "red", aes(x = 2016, y = 5688)) +
-  annotate("text", x = 1950, y = 5688, label = "2016 had most films (5688) directed by women", colour = "red", size = 2.5)
-
-female_directors_year
-```
-
-Doing the same thing for Males, ggplot of gilms produced by males per year.
-```{r}
-male_directors_year <- ggplot(male_director_no, aes(x = production_year, y = male_director)) + geom_point(alpha = .3) +
-  ylab("Number of films directed") + 
-  xlab("Production Year") + 
-  ggtitle("Number of films produced by men per year") +
+  ggtitle("percentage of films produced by women per year") +
   geom_line()
-
-male_directors_year
+  
+female_director_graph
 ```
 
-Looking at number of films produced by each film director. 
-```{r}
-no_films_director <- female_directors %>%
-  group_by(name) %>%
-  filter(production_year >= 1896 & production_year <= 2017) %>%
-  summarize(film_no = n()) %>%
-  arrange(desc(film_no))
-```
+
+
+
+
 
 
 
