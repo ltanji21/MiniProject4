@@ -67,22 +67,16 @@ all_directors_info <- movie_directors %>%
 ```
 
 ```{r, warning=FALSE}
-#Looking at the table for Oscar winning, female directed movies. 
-Oscar_Winners <- c("Awakenings", 
-                   "Children of a Lesser God",
-                   "Lost in Translation", 
-                   "Selma", 
-                   "The Hurt Locker", 
-                   "The Kids Are All Right", 
-                   "The Prince of Tides", 
-                   "Winter's Bone", 
-                   "Zero Dark Thirty")
+#Making the table for Oscar winning, female directed movies. 
+
+Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
+"4404940", "3890366", "3280928", "3314581")
 
 Oscars_directors_info <- all_directors_info %>%
-  filter(title %in% Oscar_Winners)%>%
-  select(production_year, title, name, gender)
+  filter(movie_id %in% Oscar_Winners)%>%
+  select(production_year, title, name, gender) %>%
+  arrange(desc(production_year))
 
-"The Piano",  "Little Miss Sunshine", "An Education",
 
 Oscars_directors_info
 ```
