@@ -5,7 +5,7 @@ date: "2017年11月29日"
 output: html_document
 ---
 
-#Loading libraries
+Loading libraries 
 ```{r}
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
@@ -13,7 +13,7 @@ suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
 ```
 
-Getting just directors 
+Getting information on directors. 
 ```{r, message=FALSE, echo=FALSE}
 all_directors <- dbConnect_scidb(dbname = "imdb")
 class(all_directors)
@@ -24,7 +24,7 @@ all_directors <- all_directors %>%
              WHERE role_id = 8;")
 ```
 
-Filing in Movie titles in `directors` table
+Filing in Movie titles in `directors` table. 
 ```{r}
 movies <- dbConnect_scidb(dbname = "imdb")
 class(movies)
@@ -62,15 +62,15 @@ all_directors_info <- movie_directors %>%
   inner_join(director_info, by = "person_id")
 ```
 
-Get number of directors per year.
+Get number of directors per year. 
 ```{r}
 director_no <- all_directors_info %>%
   group_by(production_year) %>%
-  filter(is.na(gender)) %>%
+  filter(is.na(gender) & production_year >= 1896 & production_year <= 2017) %>%
   summarize(no_directors = n())
 ```
 
-Joining the number of firectors total table to number of female directors table.
+Joining the number of firectors total table to number of female directors table. 
 ```{r}
 female_director_no <- all_directors_info %>%
   group_by(production_year) %>%
