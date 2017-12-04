@@ -62,6 +62,30 @@ all_directors_info <- movie_directors %>%
   inner_join(director_info, by = "person_id")
 ```
 
+Looking at the table for Oscar winning, female directed movies. 
+```{r}
+Oscar_Winners <- c("An Education", 
+                   "Awakenings", 
+                   "Children of a Lesser God", 
+                   "Little Miss Sunshine", 
+                   "Lost in Translation", 
+                   "Selma", 
+                   "The Hurt Locker", 
+                   "The Kids Are All Right", 
+                   "The Piano", 
+                   "The Prince of Tides", 
+                   "Winter's Bone", 
+                   "Zero Dark Thirty")
+```
+
+```{r}
+Oscars_directors_info <- all_directors_info %>%
+  filter(title == Oscar_Winners)%>%
+  select(production_year, title, name, gender)
+
+Oscars_directors_info
+```
+
 Get number of directors per year. 
 ```{r}
 director_no <- all_directors_info %>%
