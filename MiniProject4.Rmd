@@ -1,7 +1,7 @@
 ---
-title: "MiniProject 4"
+title: "The Ignored Women of Hollywood"
 author: "Leigh Tanji, Samantha Bryce"
-date: "2017年11月29日"
+date: `r format(Sys.Date(), "%B %e, %Y")`
 output: 
   html_document:
   code_folding: hide
@@ -9,15 +9,16 @@ output:
   fig_height: 2.5
 ---
 
-```{r}
+![](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
+
+
+```{r, message=FALSE, echo=FALSE, error=FALSE, warning=FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
 suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
-```
 
-```{r, message=FALSE, echo=FALSE}
 #Getting information on directors. 
 all_directors <- dbConnect_scidb(dbname = "imdb")
 class(all_directors)
@@ -26,9 +27,7 @@ all_directors <- all_directors %>%
   dbGetQuery("SELECT person_id, movie_id, role_id
              FROM cast_info 
              WHERE role_id = 8;")
-```
 
-```{r}
 #Filing in Movie titles in `directors` table. 
 movies <- dbConnect_scidb(dbname = "imdb")
 class(movies)
@@ -39,16 +38,13 @@ movies <- movies %>%
              FROM title
              WHERE kind_id = 1;")
 
-
 list2env(movies, envir = .GlobalEnv)
 movies <- rename(movies, movie_id = id)
 
 
 movie_directors <- all_directors %>%
   inner_join(movies, by = "movie_id")
-```
 
-```{r}
 #Combining information about the directors to the 'movie_directors' table. 
 director_info <- dbConnect_scidb(dbname = "imdb")
 class(director_info)
@@ -64,49 +60,25 @@ director_info<- rename(director_info, person_id = id)
 
 all_directors_info <- movie_directors %>%
   inner_join(director_info, by = "person_id")
-```
 
-```{r, warning=FALSE}
-#Making the table for Oscar winning, female directed movies. 
-
-Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
-"4404940", "3890366", "3280928", "3314581")
-
-Oscars_directors_info <- all_directors_info %>%
-  filter(movie_id %in% Oscar_Winners)%>%
-  select(production_year, title, name, gender) %>%
-  arrange(desc(production_year))
-
-
-Oscars_directors_info
-```
-
-```{r}
 #Get number of directors per year. 
 director_no <- all_directors_info %>%
   group_by(production_year) %>%
   filter(is.na(gender) & production_year >= 1896 & production_year <= 2017) %>%
   summarize(no_directors = n())
-```
 
-```{r}
 #Joining the number of firectors total table to number of female directors table. 
 female_director_no <- all_directors_info %>%
   group_by(production_year) %>%
   filter(gender == "f" & production_year >= 1896 & production_year <= 2017) %>%
   summarize(female_director = n())
-```
 
-```{r}
 #Getting the percentage of female directors by year. 
 female_director_ratio <- female_director_no %>%
   inner_join(director_no, by = "production_year") %>%
    group_by(production_year) %>%
   summarise(ratio_f_directors = (female_director/no_directors)*100)
   
-```
-
-```{r, message=FALSE, error= FALSE, echo=FALSE, warning= FALSE}
 #Making a ggplot of ratio of females per year.
 female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
@@ -115,10 +87,7 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   ggtitle("percentage of films produced by women per year") +
   geom_line()
   
-female_director_graph
-```
 
-```{r, message=FALSE, error= FALSE, echo=FALSE, warning= FALSE}
 #Graphic of Oscar best film wining movies by female directors. 
 female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
@@ -126,13 +95,8 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   xlab("Production Year") + 
   ggtitle("Percentage of films produced by women per year") +
   geom_line() + geom_point(x = 2009, y = 16.2118126, colour = "green", size = 3) + geom_point(x = 1990, y = 13.4910751, colour = "green", size = 3) + geom_point(x = 1986, y = 13.6427567, colour = "green", size = 3) + geom_point(x = 2006, y = 16.4701098, colour = "green", size = 3) + geom_point(x = 2003, y = 16.1591751, colour = "green", size = 3) + geom_point(x = 2014, y = 15.4604567, colour = "green", size = 3) + geom_point(x = 2009, y = 17, colour = "red", size = 3) + geom_point(x = 2010, y = 15.0344761, colour = "green", size = 3) + geom_point(x = 1993, y = 15.0041220, colour = "green", size = 3) + geom_point(x = 1991, y = 15.9719356, colour = "yellow", size = 3) + geom_point(x = 2010, y = 16, colour = "green", size = 3) + geom_point(x = 2012, y = 15.4001950, colour = "green", size = 3) + scale_y_continuous(limits = c(0, 20)) + scale_x_continuous(limits = c(1985, 2017))
-  
-female_director_graph_best_film 
+
 ```
-
-
-**The Ignored Women of Hollywood**
-![](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 
 With recent films like Wonder Women and iconic actors ranging from Helen Mirren to Jennifer Lawrence, it is starting to feel like women have actually found their place in Hollywood. However, this isn’t necessarily reality. Here we explore the gender gap of directors in Hollywood and how even today in 2017 women are the silent minority.
 
@@ -172,7 +136,20 @@ female_director_graph_best_film
 
 So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
 
+```{r, warning=FALSE}
+#Making the table for Oscar winning, female directed movies. 
 
+Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
+"4404940", "3890366", "3280928", "3314581")
+
+Oscars_directors_info <- all_directors_info %>%
+  filter(movie_id %in% Oscar_Winners)%>%
+  select(production_year, title, name, gender) %>%
+  arrange(desc(production_year))
+
+
+Oscars_directors_info
+```
 
 
 
