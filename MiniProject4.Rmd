@@ -1,7 +1,7 @@
 ---
 title: "The Ignored Women of Hollywood"
 author: "Leigh Tanji, Samantha Bryce"
-date: `r format(Sys.Date(), "%B %e, %Y")`
+date: '`r format(Sys.Date(), "%B %e, %Y")`'
 output: 
   html_document:
   code_folding: hide
@@ -9,10 +9,9 @@ output:
   fig_height: 2.5
 ---
 
-![](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
+![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 
-
-```{r, message=FALSE, echo=FALSE, error=FALSE, warning=FALSE}
+```{r error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
@@ -102,16 +101,27 @@ With recent films like Wonder Women and iconic actors ranging from Helen Mirren 
 
 Here we have a graph that shows the percentage of films being released each year that have female directors. As of yet we can not explain the spike around 1900 but we hypothesize that this is a product of the film industries using different classifications in the early 1900s. If we ignore the spike in the 1900s, there is a general positive trend. Women are directing more and more movies, which is a great step forward.
 
-```{r, message=FALSE, error= FALSE, echo=FALSE}
+```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
-  ylab("percentage of female directors") + 
+  ylab("% Female Directors") + 
   xlab("Production Year") + 
-  ggtitle("percentage of films produced by women per year") +
-  geom_line()
+  ggtitle("Percentage of Films Directed by Women by Year & Nominations") +
+  geom_line() + 
+  geom_point(x = 2009, y = 16.2118126, colour = "green", size = 1) + 
+  geom_point(x = 1990, y = 13.4910751, colour = "green", size = 1) +
+  geom_point(x = 1986, y = 13.6427567, colour = "green", size = 1) + 
+  geom_point(x = 2006, y = 16.4701098, colour = "green", size = 1) + 
+  geom_point(x = 2003, y = 16.1591751, colour = "green", size = 1) + 
+  geom_point(x = 2014, y = 15.4604567, colour = "green", size = 1) + 
+  geom_point(x = 2010, y = 15.0344761, colour = "green", size = 1) + 
+  geom_point(x = 1993, y = 15.0041220, colour = "green", size = 1) + 
+  geom_point(x = 1991, y = 15.9719356, colour = "green", size = 1) + 
+  geom_point(x = 2012, y = 15.4001950, colour = "green", size = 1) 
   
 female_director_graph 
 ```
+
 
 This might lead to the logical jump forward that women’s work in Hollywood is also being celebrated with a greater frequency. With this in mind we examined movies that have received Best Picture nominations at the Oscars… Our findings were abysmally sad with there only being 12 films in the history of the Oscars to be directed by a woman and nominated for Best Picture. Even more upsetting is that none of these movies ever won Best Picture.
 
@@ -123,20 +133,7 @@ Based on user-generated data on the Bechdel test’s website less than 60% of fi
 
 In contrast to the overall low passing rate of the Bechdel test, 90% of the female directed nominees for Best Picture pass the Bechdel test. Here you can see the same percentage graph from earlier with the female directed nominees denoted with round points. Points in green passed the Bechdel test, the point in red failed, and the point in yellow has not yet been evaluated the Bechdel test.
 
-```{r, message=FALSE, error= FALSE, echo=FALSE, warning=FALSE}
-female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
-  geom_point(alpha = .3) +
-  ylab("Percentage of female directors") + 
-  xlab("Production Year") + 
-  ggtitle("percentage of female directors per year and nominations") +
-  geom_line() + geom_point(x = 2009, y = 16.2118126, colour = "green", size = 3) + geom_point(x = 1990, y = 13.4910751, colour = "green", size = 3) + geom_point(x = 1986, y = 13.6427567, colour = "green", size = 3) + geom_point(x = 2006, y = 16.4701098, colour = "green", size = 3) + geom_point(x = 2003, y = 16.1591751, colour = "green", size = 3) + geom_point(x = 2014, y = 15.4604567, colour = "green", size = 3) + geom_point(x = 2009, y = 17, colour = "red", size = 3) + geom_point(x = 2010, y = 15.0344761, colour = "green", size = 3) + geom_point(x = 1993, y = 15.0041220, colour = "green", size = 3) + geom_point(x = 1991, y = 15.9719356, colour = "yellow", size = 3) + geom_point(x = 2010, y = 16, colour = "green", size = 3) + geom_point(x = 2012, y = 15.4001950, colour = "green", size = 3) + scale_y_continuous(limits = c(0, 20)) + scale_x_continuous(limits = c(1985, 2017))
-  
-female_director_graph_best_film 
-```
-
-So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
-
-```{r, warning=FALSE}
+```{r, warning=FALSE, echo=FALSE}
 #Making the table for Oscar winning, female directed movies. 
 
 Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
@@ -150,7 +147,19 @@ Oscars_directors_info <- all_directors_info %>%
 
 Oscars_directors_info
 ```
+So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
 
+
+```{r, message=FALSE, error= FALSE, echo=FALSE, warning=FALSE}
+female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
+  geom_point(alpha = .3) +
+  ylab("% Female Directors") + 
+  xlab("Production Year") + 
+  ggtitle("Percentage of Female Directors per year and nominations") +
+  geom_line() + geom_point(x = 2009, y = 16.2118126, colour = "green", size = 3) + geom_point(x = 1990, y = 13.4910751, colour = "green", size = 3) + geom_point(x = 1986, y = 13.6427567, colour = "green", size = 3) + geom_point(x = 2006, y = 16.4701098, colour = "green", size = 3) + geom_point(x = 2003, y = 16.1591751, colour = "green", size = 3) + geom_point(x = 2014, y = 15.4604567, colour = "green", size = 3) + geom_point(x = 2009, y = 17, colour = "red", size = 3) + geom_point(x = 2010, y = 15.0344761, colour = "green", size = 3) + geom_point(x = 1993, y = 15.0041220, colour = "green", size = 3) + geom_point(x = 1991, y = 15.9719356, colour = "yellow", size = 3) + geom_point(x = 2010, y = 16, colour = "green", size = 3) + geom_point(x = 2012, y = 15.4001950, colour = "green", size = 3) + scale_y_continuous(limits = c(0, 20)) + scale_x_continuous(limits = c(1985, 2017))
+  
+female_director_graph_best_film 
+```
 
 
 
