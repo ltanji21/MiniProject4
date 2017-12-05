@@ -4,10 +4,87 @@ author: "Leigh Tanji, Samantha Bryce"
 date: '`r format(Sys.Date(), "%B %e, %Y")`'
 output: 
   html_document:
-  code_folding: hide
-  fig_width: 6 
-  fig_height: 2.5
+    theme: "journal"
+    code_folding: hide
+    fig_width: 6 
+    fig_height: 2.5
+    figure_caption: true
 ---
+```{r}
+#loading libraries
+suppressMessages(library(mdsr))
+suppressMessages(library(RMySQL))
+suppressMessages(library(dplyr))
+suppressMessages(library(ggplot2))
+
+#Getting information on directors. 
+all_directors <- dbConnect_scidb(dbname = "imdb")
+class(all_directors)
+
+all_directors <- all_directors %>%
+  dbGetQuery("SELECT person_id, movie_id, role_id
+             FROM cast_info 
+             WHERE role_id = 8;")
+
+#Filing in Movie titles in `directors` table. 
+movies <- dbConnect_scidb(dbname = "imdb")
+class(movies)
+
+
+movies <- movies %>%
+  dbGetQuery("SELECT id, title, kind_id, production_year
+             FROM title
+             WHERE kind_id = 1;")
+
+list2env(movies, envir = .GlobalEnv)
+movies <- rename(movies, movie_id = id)
+
+
+movie_directors <- all_directors %>%
+  inner_join(movies, by = "movie_id")
+
+#Combining information about the directors to the 'movie_directors' table. 
+director_info <- dbConnect_scidb(dbname = "imdb")
+class(director_info)
+
+
+director_info<- director_info %>%
+  dbGetQuery("SELECT id, name, gender 
+             FROM imdb.name;")
+
+list2env(director_info, envir = .GlobalEnv)
+
+director_info<- rename(director_info, person_id = id)
+
+all_directors_info <- movie_directors %>%
+  inner_join(director_info, by = "person_id")
+
+#Get number of directors per year. 
+director_no <- all_directors_info %>%
+  group_by(production_year) %>%
+  filter(is.na(gender) & production_year >= 1896 & production_year <= 2017) %>%
+  summarize(no_directors = n())
+
+#Joining the number of firectors total table to number of female directors table. 
+female_director_no <- all_directors_info %>%
+  group_by(production_year) %>%
+  filter(gender == "f" & production_year >= 1896 & production_year <= 2017) %>%
+  summarize(female_director = n())
+
+#Getting the percentage of female directors by year. 
+female_director_ratio <- female_director_no %>%
+  inner_join(director_no, by = "production_year") %>%
+   group_by(production_year) %>%
+  summarise(ratio_f_directors = (female_director/no_directors)*100)
+  
+#Making a ggplot of ratio of females per year.
+female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
+  geom_point(alpha = .3) +
+  ylab("percentage of female directors") + 
+  xlab("Production Year") + 
+  ggtitle("percentage of films produced by women per year") +
+  geom_line()
+```
 
 ![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 
@@ -101,7 +178,7 @@ With recent films like Wonder Women and iconic actors ranging from Helen Mirren 
 
 Here we have a graph that shows the percentage of films being released each year that have female directors. As of yet we can not explain the spike around 1900 but we hypothesize that this is a product of the film industries using different classifications in the early 1900s. If we ignore the spike in the 1900s, there is a general positive trend. Women are directing more and more movies, which is a great step forward.
 
-```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
+```{r, error=FALSE, message=FALSE, warning=FALSE}
 female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
   ylab("% Female Directors") + 
@@ -133,7 +210,7 @@ Based on user-generated data on the Bechdel test’s website less than 60% of fi
 
 In contrast to the overall low passing rate of the Bechdel test, 90% of the female directed nominees for Best Picture pass the Bechdel test. Here you can see the same percentage graph from earlier with the female directed nominees denoted with round points. Points in green passed the Bechdel test, the point in red failed, and the point in yellow has not yet been evaluated the Bechdel test.
 
-```{r, warning=FALSE, echo=FALSE}
+```{r, warning=FALSE}
 #Making the table for Oscar winning, female directed movies. 
 
 Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
@@ -147,10 +224,11 @@ Oscars_directors_info <- all_directors_info %>%
 
 Oscars_directors_info
 ```
+
 So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
 
 
-```{r, message=FALSE, error= FALSE, echo=FALSE, warning=FALSE}
+```{r, message=FALSE, error= FALSE, warning=FALSE}
 female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
   ylab("% Female Directors") + 
