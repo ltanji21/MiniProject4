@@ -98,7 +98,13 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
 
 ```
 
+<<<<<<< HEAD
 With recent films like Wonder Women and iconic actors ranging from Helen Mirren to Jennifer Lawrence, it is starting to feel like women have actually found their place in Hollywood. However, this isn’t necessarily reality. Here we explore the gender gap of directors in Hollywood and how even today in 2017 women are the silent minority.
+=======
+![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
+
+As Charlize Theron defies her cult leader *in Mad Max: Fury Road* and Gal Gadot smashes the god of war in *Wonder Woman*, women seem to have finally found their place in Hollywood. However, the fictional women on screen only shroud the substantial struggle for recognition of the women the behind the scenes. In 2017, female directors are still the marginalized minority. 
+>>>>>>> b6daee8846e9e4e04c32699b445c53d9aa5ea850
 
 Here we have a graph that shows the percentage of films being released each year that have female directors. As of yet we can not explain the spike around 1900 but we hypothesize that this is a product of the film industries using different classifications in the early 1900s. If we ignore the spike in the 1900s, there is a general positive trend. Women are directing more and more movies, which is a great step forward.
 
@@ -152,8 +158,8 @@ Oscars_directors_info <- all_directors_info %>%
   rename("Production Year" = production_year, Name = name, Title = title) %>%
   kable("html") %>%
   kable_styling(bootstrap_options = "striped") %>%
-  row_spec(Passed, background = "green") %>%
-  row_spec(7, background = "red")
+  row_spec(Passed, color = "white", background = "green") %>%
+  row_spec(7, color = "white", background = "red")
 
 Oscars_directors_info 
 ```
