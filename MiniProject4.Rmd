@@ -27,7 +27,7 @@ all_directors <- db %>%
 
 #Filing in Movie titles in `directors` table. 
 movies <- db %>%
-  dbGetQuery("SELECT id, title, kind_id, production_year
+  dbGetQuery("SELECT DISTINCT id, title, kind_id, production_year
              FROM title
              WHERE kind_id = 1;")
 movies <- rename(movies, movie_id = id)
@@ -35,23 +35,39 @@ movies <- rename(movies, movie_id = id)
 movie_directors <- all_directors %>%
   inner_join(movies, by = "movie_id")
 
+#Getting info about movie runtimes.
+movie_info <- db %>%
+  dbGetQuery("SELECT movie_id, info, note
+             FROM imdb.movie_info 
+             WHERE info_type_id = 1;")
+
+#merging info about run times.
+actual_movies <- movie_info %>%
+  inner_join(movie_directors, by = "movie_id")
+
 #Combining information about the directors to the 'movie_directors' table. 
 director_info<- db %>%
   dbGetQuery("SELECT id, name, gender 
              FROM imdb.name;")
 
 director_info<- rename(director_info, person_id = id)
+```
 
-all_directors_info <- movie_directors %>%
-  inner_join(director_info, by = "person_id")
+```{r}
+all_directors_info <- actual_movies %>%
+  inner_join(director_info, by = "person_id") %>%
+  select(production_year, title, person_id, gender, movie_id, info, note) %>%
+  group_by(production_year, title) 
+```
 
+```{r}
 #Get number of directors per year. 
 director_no <- all_directors_info %>%
   group_by(production_year) %>%
   filter(is.na(gender) & production_year >= 1896 & production_year <= 2017) %>%
   summarize(no_directors = n())
 
-#Joining the number of firectors total table to number of female directors table. 
+#Joining the number of directors total table to number of female directors table. 
 female_director_no <- all_directors_info %>%
   group_by(production_year) %>%
   filter(gender == "f" & production_year >= 1896 & production_year <= 2017) %>%
