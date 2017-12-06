@@ -89,7 +89,6 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
 ![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 
 ```{r}
-#Graphic of Oscar best film wining movies by female directors. 
 female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
   ylab("Percentage of female directors") + 
