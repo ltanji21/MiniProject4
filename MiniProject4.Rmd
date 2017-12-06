@@ -88,82 +88,7 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
 
 ![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 
-```{r error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-#loading libraries
-suppressMessages(library(mdsr))
-suppressMessages(library(RMySQL))
-suppressMessages(library(dplyr))
-suppressMessages(library(ggplot2))
-
-#Getting information on directors. 
-all_directors <- dbConnect_scidb(dbname = "imdb")
-class(all_directors)
-
-all_directors <- all_directors %>%
-  dbGetQuery("SELECT person_id, movie_id, role_id
-             FROM cast_info 
-             WHERE role_id = 8;")
-
-#Filing in Movie titles in `directors` table. 
-movies <- dbConnect_scidb(dbname = "imdb")
-class(movies)
-
-
-movies <- movies %>%
-  dbGetQuery("SELECT id, title, kind_id, production_year
-             FROM title
-             WHERE kind_id = 1;")
-
-list2env(movies, envir = .GlobalEnv)
-movies <- rename(movies, movie_id = id)
-
-
-movie_directors <- all_directors %>%
-  inner_join(movies, by = "movie_id")
-
-#Combining information about the directors to the 'movie_directors' table. 
-director_info <- dbConnect_scidb(dbname = "imdb")
-class(director_info)
-
-
-director_info<- director_info %>%
-  dbGetQuery("SELECT id, name, gender 
-             FROM imdb.name;")
-
-list2env(director_info, envir = .GlobalEnv)
-
-director_info<- rename(director_info, person_id = id)
-
-all_directors_info <- movie_directors %>%
-  inner_join(director_info, by = "person_id")
-
-#Get number of directors per year. 
-director_no <- all_directors_info %>%
-  group_by(production_year) %>%
-  filter(is.na(gender) & production_year >= 1896 & production_year <= 2017) %>%
-  summarize(no_directors = n())
-
-#Joining the number of firectors total table to number of female directors table. 
-female_director_no <- all_directors_info %>%
-  group_by(production_year) %>%
-  filter(gender == "f" & production_year >= 1896 & production_year <= 2017) %>%
-  summarize(female_director = n())
-
-#Getting the percentage of female directors by year. 
-female_director_ratio <- female_director_no %>%
-  inner_join(director_no, by = "production_year") %>%
-   group_by(production_year) %>%
-  summarise(ratio_f_directors = (female_director/no_directors)*100)
-  
-#Making a ggplot of ratio of females per year.
-female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
-  geom_point(alpha = .3) +
-  ylab("percentage of female directors") + 
-  xlab("Production Year") + 
-  ggtitle("percentage of films produced by women per year") +
-  geom_line()
-  
-
+```{r}
 #Graphic of Oscar best film wining movies by female directors. 
 female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
@@ -220,12 +145,12 @@ Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "44082
 "4404940", "3890366", "3280928", "3314581")
 
 Oscars_directors_info <- all_directors_info %>%
-  filter(movie_id %in% Oscar_Winners)%>%
-  select(production_year, title, name, gender) %>%
+  filter(movie_id %in% Oscar_Winners, gender == "f")%>%
+  select(production_year, title, name) %>%
   arrange(production_year) %>% 
-  rename("Production Year" = production_year, Name = name, Gender = gender, Title = title) %>%
+  rename("Production Year" = production_year, Name = name, Title = title) %>%
   kable("html") %>%
-  kable_styling(bootstrap_options = c("striped"))
+  kable_styling(bootstrap_options = "striped")
 
 Oscars_directors_info 
 ```
