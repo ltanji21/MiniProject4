@@ -10,7 +10,7 @@ output:
     fig_height: 2.5
     figure_caption: true
 ---
-```{r Data Wrangling }
+```{r Data Wrangling, echo=FALSE, message=FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
@@ -18,26 +18,20 @@ suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
 
 #Getting information on directors. 
-all_directors <- dbConnect_scidb(dbname = "imdb")
-class(all_directors)
+db <- dbConnect_scidb(dbname = "imdb")
 
-all_directors <- all_directors %>%
+all_directors <- db %>%
   dbGetQuery("SELECT person_id, movie_id, role_id
              FROM cast_info
-             WHERE role_id = 8;") %>%
-  suppressMessages()
+             WHERE role_id = 8;")
 
 #Filing in Movie titles in `directors` table. 
-movies <- dbConnect_scidb(dbname = "imdb")
-class(movies)
-
-
-movies <- movies %>%
+movies <- db %>%
   dbGetQuery("SELECT id, title, kind_id, production_year
              FROM title
              WHERE kind_id = 1;")
 
-list2env(movies, envir = .GlobalEnv)
+suppressMessages(list2env(movies, envir = .GlobalEnv))
 movies <- rename(movies, movie_id = id)
 
 
@@ -45,15 +39,11 @@ movie_directors <- all_directors %>%
   inner_join(movies, by = "movie_id")
 
 #Combining information about the directors to the 'movie_directors' table. 
-director_info <- dbConnect_scidb(dbname = "imdb")
-class(director_info)
-
-
-director_info<- director_info %>%
+director_info<- db %>%
   dbGetQuery("SELECT id, name, gender 
              FROM imdb.name;")
 
-list2env(director_info, envir = .GlobalEnv)
+suppressMessages(list2env(director_info, envir = .GlobalEnv))
 
 director_info<- rename(director_info, person_id = id)
 
@@ -110,7 +100,7 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   ggtitle("Percentage of Films Directed by Women by Year & Nominations") +
   geom_line() + 
   geom_point(x = 2009, y = 16.2118126, colour = "green", size = 1) + 
-  geom_point(x = 1990, y = 13.4910751, colour = "green", size = 1) +
+  geom_point(x = 1990, y = 13.4910751, colour = "black", size = 1) +
   geom_point(x = 1986, y = 13.6427567, colour = "green", size = 1) + 
   geom_point(x = 2006, y = 16.4701098, colour = "green", size = 1) + 
   geom_point(x = 2003, y = 16.1591751, colour = "green", size = 1) + 
@@ -118,7 +108,8 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   geom_point(x = 2010, y = 15.0344761, colour = "green", size = 1) + 
   geom_point(x = 1993, y = 15.0041220, colour = "green", size = 1) + 
   geom_point(x = 1991, y = 15.9719356, colour = "green", size = 1) + 
-  geom_point(x = 2012, y = 15.4001950, colour = "green", size = 1) 
+  geom_point(x = 2012, y = 15.4001950, colour = "green", size = 1) +
+  geom_point(x = 2008, y = 16.2118126, colour = "red", size = 1)
   
 female_director_graph 
 ```
