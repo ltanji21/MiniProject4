@@ -30,10 +30,7 @@ movies <- db %>%
   dbGetQuery("SELECT id, title, kind_id, production_year
              FROM title
              WHERE kind_id = 1;")
-
-suppressMessages(list2env(movies, envir = .GlobalEnv))
 movies <- rename(movies, movie_id = id)
-
 
 movie_directors <- all_directors %>%
   inner_join(movies, by = "movie_id")
@@ -42,8 +39,6 @@ movie_directors <- all_directors %>%
 director_info<- db %>%
   dbGetQuery("SELECT id, name, gender 
              FROM imdb.name;")
-
-suppressMessages(list2env(director_info, envir = .GlobalEnv))
 
 director_info<- rename(director_info, person_id = id)
 
