@@ -10,7 +10,7 @@ output:
     fig_height: 2.5
     figure_caption: true
 ---
-```{r Data Wrangling}
+```{r Data Wrangling, message=FALSE, eval=FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
@@ -144,13 +144,17 @@ library(kableExtra)
 Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
 "4404940", "3890366", "3280928", "3314581")
 
+Passed <- c(1, 2, 4, 5, 6, 8, 9, 10, 11, 12)
+
 Oscars_directors_info <- all_directors_info %>%
-  filter(movie_id %in% Oscar_Winners, gender == "f")%>%
+  filter(movie_id %in% Oscar_Winners, gender == "f") %>%
   select(production_year, title, name) %>%
   arrange(production_year) %>% 
   rename("Production Year" = production_year, Name = name, Title = title) %>%
   kable("html") %>%
-  kable_styling(bootstrap_options = "striped")
+  kable_styling(bootstrap_options = "striped") %>%
+  row_spec(Passed, background = "green") %>%
+  row_spec(7, background = "red")
 
 Oscars_directors_info 
 ```
