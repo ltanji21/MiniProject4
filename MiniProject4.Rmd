@@ -56,7 +56,6 @@ director_info<- rename(director_info, person_id = id)
 ```{r}
 all_directors_info <- actual_movies %>%
   inner_join(director_info, by = "person_id") %>%
-  select(production_year, title, person_id, gender, movie_id, info, note) %>%
   group_by(production_year, title) 
 ```
 
