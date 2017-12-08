@@ -10,7 +10,7 @@ output:
     fig_height: 2.5
     figure_caption: true
 ---
-```{r Data Wrangling, echo=FALSE, message=FALSE}
+```{r Data Wrangling, message=FALSE, warnings = FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
@@ -97,16 +97,6 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   geom_line()
 ```
 
-```{r}
-#Graphic of Oscar best film wining movies by female directors. 
-female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
-  geom_point(alpha = .3) +
-  ylab("Percentage of female directors") + 
-  xlab("Production Year") + 
-  ggtitle("Percentage of films produced by women per year") +
-  geom_line() + geom_point(x = 2009, y = 16.2118126, colour = "green", size = 3) + geom_point(x = 1990, y = 13.4910751, colour = "green", size = 3) + geom_point(x = 1986, y = 13.6427567, colour = "green", size = 3) + geom_point(x = 2006, y = 16.4701098, colour = "green", size = 3) + geom_point(x = 2003, y = 16.1591751, colour = "green", size = 3) + geom_point(x = 2014, y = 15.4604567, colour = "green", size = 3) + geom_point(x = 2009, y = 17, colour = "red", size = 3) + geom_point(x = 2010, y = 15.0344761, colour = "green", size = 3) + geom_point(x = 1993, y = 15.0041220, colour = "green", size = 3) + geom_point(x = 1991, y = 15.9719356, colour = "yellow", size = 3) + geom_point(x = 2010, y = 16, colour = "green", size = 3) + geom_point(x = 2012, y = 15.4001950, colour = "green", size = 3) + scale_y_continuous(limits = c(0, 20)) + scale_x_continuous(limits = c(1985, 2017))
-```
-
 ![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 
 As Charlize Theron defies her cult leader *in Mad Max: Fury Road* and Gal Gadot smashes the god of war in *Wonder Woman*, women seem to have finally found their place in Hollywood. However, the fictional women on screen only shroud the substantial struggle for recognition of the women the behind the scenes. In 2017, female directors are still the marginalized minority. 
@@ -114,25 +104,30 @@ As Charlize Theron defies her cult leader *in Mad Max: Fury Road* and Gal Gadot 
 Here we have a graph that shows the percentage of films being released each year that have female directors. As of yet we can not explain the spike around 1900 but we hypothesize that this is a product of the film industries using different classifications in the early 1900s. If we ignore the spike in the 1900s, there is a general positive trend. Women are directing more and more movies, which is a great step forward.
 
 ```{r, error=FALSE, message=FALSE, warning=FALSE}
-female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
+
+#Graphic of Oscar best film wining movies by female directors. 
+female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
-  ylab("% Female Directors") + 
+  ylab("% of female directors") + 
   xlab("Production Year") + 
-  ggtitle("Percentage of Films Directed by Women by Year & Nominations") +
+  ggtitle("Yearly Percentage of Films Produced by Women and Best Film Nominations") +
   geom_line() + 
-  geom_point(x = 2009, y = 16.2118126, colour = "green", size = 1) + 
-  geom_point(x = 1990, y = 13.4910751, colour = "black", size = 1) +
-  geom_point(x = 1986, y = 13.6427567, colour = "green", size = 1) + 
-  geom_point(x = 2006, y = 16.4701098, colour = "green", size = 1) + 
-  geom_point(x = 2003, y = 16.1591751, colour = "green", size = 1) + 
-  geom_point(x = 2014, y = 15.4604567, colour = "green", size = 1) + 
-  geom_point(x = 2010, y = 15.0344761, colour = "green", size = 1) + 
-  geom_point(x = 1993, y = 15.0041220, colour = "green", size = 1) + 
-  geom_point(x = 1991, y = 15.9719356, colour = "green", size = 1) + 
-  geom_point(x = 2012, y = 15.4001950, colour = "green", size = 1) +
-  geom_point(x = 2008, y = 16.2118126, colour = "red", size = 1)
-  
-female_director_graph 
+  geom_point(x = 2009, y = 6.7915106, colour = "green", size = 3) + 
+  geom_point(x = 1990, y = 4.7560976, colour = "green", size = 3) + 
+  geom_point(x = 1986, y = 4.4626021, colour = "green", size = 3) + 
+  geom_point(x = 2006, y = 7.4663403, colour = "green", size = 3) + 
+  geom_point(x = 2003, y = 5.7618438, colour = "green", size = 3) + 
+  geom_point(x = 2014, y = 7.4427931, colour = "green", size = 3) + 
+  geom_point(x = 2008, y = 7.2944297, colour = "red", size = 3) + 
+  geom_point(x = 2010, y = 6.8467337, colour = "green", size = 3) + 
+  geom_point(x = 1993, y = 4.1348601, colour = "green", size = 3) + 
+  geom_point(x = 1991, y = 5.7571965, colour = "yellow", size = 3) + 
+  geom_point(x = 2010, y = 16, colour = "green", size = 3) + 
+  geom_point(x = 2012, y = 7.0727195, colour = "green", size = 3) + 
+  scale_y_continuous(limits = c(0, 9)) + 
+  scale_x_continuous(limits = c(1985, 2016))
+
+female_director_graph_best_film
 ```
 
 
