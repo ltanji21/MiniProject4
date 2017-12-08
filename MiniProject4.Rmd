@@ -17,7 +17,8 @@ suppressMessages(library(RMySQL))
 suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
 
-#Getting information on directors. 
+#**GETTING FEMALE DIRECTORS**
+#Getting information on directors from cast info. 
 db <- dbConnect_scidb(dbname = "imdb")
 
 all_directors <- db %>%
@@ -25,58 +26,79 @@ all_directors <- db %>%
              FROM cast_info
              WHERE role_id = 8;")
 
-#Filing in Movie titles in `directors` table. 
+#Getting information on female movie people's id, name, and gender from 'imdb.name' 
+director_info<- db %>%
+  dbGetQuery("SELECT id, name, gender 
+             FROM imdb.name
+             WHERE gender = 'f';")
+
+director_info <- rename(director_info, person_id = id)
+
+#Combining information about female movie people and just directors to get more information about female directors.
+all_dirctor_info <- all_directors %>%
+  inner_join(director_info, by = "person_id")
+```
+
+```{r}
+#**GETTING GLOBAL MOVIES**
+#Getting infomation on all movies. Since there's a lot of movies, we need more info on these movies. 
 movies <- db %>%
   dbGetQuery("SELECT DISTINCT id, title, kind_id, production_year
              FROM title
              WHERE kind_id = 1;")
 movies <- rename(movies, movie_id = id)
 
-movie_directors <- all_directors %>%
+#Getting info about movie runtimes.
+movie_runtime <- db %>%
+  dbGetQuery("SELECT movie_id, info
+             FROM imdb.movie_info 
+             WHERE info_type_id = 1 AND info >= 80
+             GROUP BY movie_id;")
+
+#merging info about movies with runtimes over 80minutes and movie title, and movie id.  
+actual_movies <- movie_runtime %>%
   inner_join(movies, by = "movie_id")
 
-#Getting info about movie runtimes.
-movie_info <- db %>%
-  dbGetQuery("SELECT movie_id, info, note
-             FROM imdb.movie_info 
-             WHERE info_type_id = 1;")
-
-#merging info about run times.
-actual_movies <- movie_info %>%
-  inner_join(movie_directors, by = "movie_id")
-
-#Combining information about the directors to the 'movie_directors' table. 
-director_info<- db %>%
-  dbGetQuery("SELECT id, name, gender 
-             FROM imdb.name;")
-
-director_info<- rename(director_info, person_id = id)
+actual_movies <- actual_movies %>%
+  group_by(movie_id, production_year) %>%
+  filter(!is.na(production_year))
 ```
 
 ```{r}
-all_directors_info <- actual_movies %>%
-  inner_join(director_info, by = "person_id") %>%
-  group_by(production_year, title) 
+#**COMBINING FEMALE DIRECTORS AND MOVIES**
+movie_f_directors <- actual_movies %>%
+  inner_join(all_dirctor_info, by = "movie_id")
 ```
 
 ```{r}
-#Get number of directors per year. 
-director_no <- all_directors_info %>%
+#cutting out runtime, kind_id, movie_id, person_id, role_id, and getting number of female directed movies per year.
+no_movie_f_directors <- movie_f_directors %>%
   group_by(production_year) %>%
-  filter(is.na(gender) & production_year >= 1896 & production_year <= 2017) %>%
-  summarize(no_directors = n())
+  filter(production_year >= 1896 & production_year <= 2016) %>%
+  summarize(n_female_directors = n())
+```
 
-#Joining the number of directors total table to number of female directors table. 
-female_director_no <- all_directors_info %>%
+```{r}
+#**GETTING number of directors per year GLOBALLY** 
+director_no <- all_directors %>%
+  inner_join(actual_movies, by = "movie_id") %>%
+  group_by(movie_id) %>%
+  filter(!is.na(production_year))
+
+yearly_director_no <- director_no %>%
   group_by(production_year) %>%
-  filter(gender == "f" & production_year >= 1896 & production_year <= 2017) %>%
-  summarize(female_director = n())
+  filter(production_year >= 1896 & production_year <= 2016) %>%
+  summarize(n_directors = n())
+```
 
+```{r}
 #Getting the percentage of female directors by year. 
-female_director_ratio <- female_director_no %>%
-  inner_join(director_no, by = "production_year") %>%
-   group_by(production_year) %>%
-  summarise(ratio_f_directors = (female_director/no_directors)*100)
+female_director_ratio <- no_movie_f_directors %>%
+  inner_join(yearly_director_no, by = "production_year") %>%
+  group_by(production_year) %>%
+  summarise(ratio_f_directors = (n_female_directors/n_directors)*100)
+```
+```{r}
   
 #Making a ggplot of ratio of females per year.
 female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
@@ -86,6 +108,11 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   ggtitle("percentage of films produced by women per year") +
   geom_line()
 
+female_director_graph
+
+```
+
+```{r}
 #Graphic of Oscar best film wining movies by female directors. 
 female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
