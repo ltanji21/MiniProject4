@@ -37,9 +37,7 @@ director_info <- rename(director_info, person_id = id)
 #Combining information about female movie people and just directors to get more information about female directors.
 all_dirctor_info <- all_directors %>%
   inner_join(director_info, by = "person_id")
-```
 
-```{r}
 #**GETTING GLOBAL MOVIES**
 #Getting infomation on all movies. Since there's a lot of movies, we need more info on these movies. 
 movies <- db %>%
@@ -62,23 +60,17 @@ actual_movies <- movie_runtime %>%
 actual_movies <- actual_movies %>%
   group_by(movie_id, production_year) %>%
   filter(!is.na(production_year))
-```
 
-```{r}
 #**COMBINING FEMALE DIRECTORS AND MOVIES**
 movie_f_directors <- actual_movies %>%
   inner_join(all_dirctor_info, by = "movie_id")
-```
 
-```{r}
 #cutting out runtime, kind_id, movie_id, person_id, role_id, and getting number of female directed movies per year.
 no_movie_f_directors <- movie_f_directors %>%
   group_by(production_year) %>%
   filter(production_year >= 1896 & production_year <= 2016) %>%
   summarize(n_female_directors = n())
-```
 
-```{r}
 #**GETTING number of directors per year GLOBALLY** 
 director_no <- all_directors %>%
   inner_join(actual_movies, by = "movie_id") %>%
@@ -89,17 +81,13 @@ yearly_director_no <- director_no %>%
   group_by(production_year) %>%
   filter(production_year >= 1896 & production_year <= 2016) %>%
   summarize(n_directors = n())
-```
 
-```{r}
 #Getting the percentage of female directors by year. 
 female_director_ratio <- no_movie_f_directors %>%
   inner_join(yearly_director_no, by = "production_year") %>%
   group_by(production_year) %>%
   summarise(ratio_f_directors = (n_female_directors/n_directors)*100)
-```
-```{r}
-  
+ 
 #Making a ggplot of ratio of females per year.
 female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, y = ratio_f_directors)) + 
   geom_point(alpha = .3) +
@@ -107,9 +95,6 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   xlab("Production Year") + 
   ggtitle("percentage of films produced by women per year") +
   geom_line()
-
-female_director_graph
-
 ```
 
 ```{r}
@@ -161,9 +146,8 @@ Based on user-generated data on the Bechdel test’s website less than 60% of fi
 
 In contrast to the overall low passing rate of the Bechdel test, 90% of the female directed nominees for Best Picture pass the Bechdel test. Here you can see the same percentage graph from earlier with the female directed nominees denoted with round points. Points in green passed the Bechdel test, the point in red failed, and the point in yellow has not yet been evaluated the Bechdel test.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, messages = FALSE}
 #Making the table for Oscar winning, female directed movies. 
-
 library(knitr)
 library(kableExtra)
 
@@ -172,10 +156,11 @@ Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "44082
 
 Passed <- c(1, 2, 4, 5, 6, 8, 9, 10, 11, 12)
 
-Oscars_directors_info <- all_directors_info %>%
+Oscars_directors_info <- movie_f_directors %>%
   filter(movie_id %in% Oscar_Winners, gender == "f") %>%
-  select(production_year, title, name) %>%
+  ungroup() %>%
   arrange(production_year) %>% 
+  select(production_year, title, name) %>%
   rename("Production Year" = production_year, Name = name, Title = title) %>%
   kable("html") %>%
   kable_styling(bootstrap_options = "striped") %>%
