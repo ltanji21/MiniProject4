@@ -94,7 +94,7 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   ylab("percentage of female directors") + 
   xlab("Production Year") + 
   ggtitle("percentage of films produced by women per year") +
-  geom_line()
+  geom_line() + theme(text=element_text(family="Times"))
 ```
 
 ![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
@@ -127,7 +127,7 @@ Furthermore, the colors represent whether the nominated film passed the Bechdel 
   geom_point(x = 2010, y = 16, colour = "green", size = 3) + 
   geom_point(x = 2012, y = 7.0727195, colour = "green", size = 3) + 
   scale_y_continuous(limits = c(0, 9)) + 
-  scale_x_continuous(limits = c(1985, 2016))
+  scale_x_continuous(limits = c(1985, 2016)) + theme(text=element_text(family="Times"))
 
 
 female_director_graph_best_film
@@ -140,10 +140,10 @@ year <- c(2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005
 percent_passing <- c(0.44, 0.5, 0.5, 0.67, 0.78, 0.44, 0.8, 0.3, 0.2, 0.6, 0.6, 0.4, 0.8, 0.4, 0.4, 0.5, 0.8, 0.75, 0.4, 0.4, 0.75, 0.75, 0.4, 0.4, 0.4, 1.00, 0.75)
 bechdel_all_films <- data.frame(year, percent_passing)
 
-bechdel_graph_best_film <- ggplot(bechdel_all_films, aes(x = year, y = percent_passing)) + geom_point(alpha = .3) + ylab("% of films that passed the Bechdel test") + 
+bechdel_graph_best_film <- ggplot(bechdel_all_films, aes(x = year, y = percent_passing, fill = percent_passing)) + geom_bar(stat = "identity") + scale_fill_gradient(low="red", high="green") +
+  ylab("% of films that passed the Bechdel test") + 
   xlab("Award Year") + 
-  ggtitle("Nominated for Best Film and Passing the Bechdel Test") +
-  geom_line() + scale_y_continuous(limits = c(0, 1)) + scale_x_continuous(limits = c(1990, 2016)) + theme(plot.title=element_text(family="Times", face="bold", size=16))
+  ggtitle("Nominated for Best Film and Passing the Bechdel Test") + theme(text=element_text(family="Times")) + scale_y_continuous(labels = scales::percent) + theme(legend.position="none")
 
 
 
