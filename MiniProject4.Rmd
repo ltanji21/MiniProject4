@@ -16,6 +16,7 @@ suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
 suppressMessages(library(dplyr))
 suppressMessages(library(ggplot2))
+suppressMessages(library(extrafont))
 
 #**GETTING FEMALE DIRECTORS**
 #Getting information on directors from cast info. 
@@ -133,7 +134,7 @@ Furthermore, the colors represent whether the nominated film passed the Bechdel 
 female_director_graph_best_film
 ```
 
-```{r}
+```{r, warning=FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
 #Graphic of the percentage of best film nominees that pass the Bechdel test
 #It should also be noted that a few films from the early 1990s had to be omitted due to them not yet being classified
 year <- c(2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990)
