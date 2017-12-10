@@ -125,9 +125,26 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   geom_point(x = 2010, y = 16, colour = "green", size = 3) + 
   geom_point(x = 2012, y = 7.0727195, colour = "green", size = 3) + 
   scale_y_continuous(limits = c(0, 9)) + 
-  scale_x_continuous(limits = c(1985, 2016))
+  scale_x_continuous(limits = c(1985, 2016)) +
+  theme(plot.title=element_text(family="Times", face="bold", size=16))
+
 
 female_director_graph_best_film
+
+#Graphic of the percentage of best film nominees that pass the Bechdel test
+#It should also be noted that a few films from the early 1990s had to be omitted due to them not yet being classified
+year <- c(2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990)
+percent_passing <- c(0.44, 0.5, 0.5, 0.67, 0.78, 0.44, 0.8, 0.3, 0.2, 0.6, 0.6, 0.4, 0.8, 0.4, 0.4, 0.5, 0.8, 0.75, 0.4, 0.4, 0.75, 0.75, 0.4, 0.4, 0.4, 1.00, 0.75)
+bechdel_all_films <- data.frame(year, percent_passing)
+
+bechdel_graph_best_film <- ggplot(bechdel_all_films, aes(x = year, y = percent_passing)) + geom_point(alpha = .3) + ylab("% of films that passed the Bechdel test") + 
+  xlab("Award Year") + 
+  ggtitle("Nominated for Best Film and Passing the Bechdel Test") +
+  geom_line() + scale_y_continuous(limits = c(0, 1)) + scale_x_continuous(limits = c(1990, 2016)) + theme(plot.title=element_text(family="Times", face="bold", size=16))
+
+
+
+bechdel_graph_best_film
 ```
 
 
