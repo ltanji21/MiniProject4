@@ -133,36 +133,6 @@ the colors represent whether the nominated film passed the Bechdel test; green s
 
 female_director_graph_best_film
 ```
-
-```{r, warning=FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
-#Graphic of the percentage of best film nominees that pass the Bechdel test
-#It should also be noted that a few films from the early 1990s had to be omitted due to them not yet being classified
-year <- c(2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990)
-percent_passing <- c(0.44, 0.5, 0.5, 0.67, 0.78, 0.44, 0.8, 0.3, 0.2, 0.6, 0.6, 0.4, 0.8, 0.4, 0.4, 0.5, 0.8, 0.75, 0.4, 0.4, 0.75, 0.75, 0.4, 0.4, 0.4, 1.00, 0.75)
-bechdel_all_films <- data.frame(year, percent_passing)
-
-bechdel_graph_best_film <- ggplot(bechdel_all_films, aes(x = year, y = percent_passing, fill = percent_passing)) + geom_bar(stat = "identity") + scale_fill_gradient(low="red", high="green") +
-  theme_bw() +
-  ylab("% of films that passed the Bechdel test") + 
-  xlab("Award Year") + 
-  ggtitle("Nominated for Best Film and Passing the Bechdel Test") + theme(text=element_text(family="Times")) + scale_y_continuous(labels = scales::percent) + theme(legend.position="none")
-
-
-
-bechdel_graph_best_film
-```
-
-
-This might lead to the logical jump forward that women’s work in Hollywood is also being celebrated with a greater frequency. With this in mind we examined movies that have received Best Picture nominations at the Oscars… Our findings were abysmally sad with there only being 12 films in the history of the Oscars to be directed by a woman and nominated for Best Picture. Even more upsetting is that none of these movies ever won Best Picture.
-
-All of our data analysis thus far brought us to the Bechdel test, The Bechdel test is the result of a 1985 comic and is a simple test to see if a film has some level of gender equality. The test has three criteria:
-1. The film has two women
-2. The two women talk to each other
-3. The women talk to each other about something other than a man/men.
-Based on user-generated data on the Bechdel test’s website less than 60% of films analyzed have passed the test and if you omit data from films in the past few decades the numbers are much lower.
-
-In contrast to the overall low passing rate of the Bechdel test, 90% of the female directed nominees for Best Picture pass the Bechdel test. Here you can see the same percentage graph from earlier with the female directed nominees denoted with round points. Points in green passed the Bechdel test, the point in red failed, and the point in yellow has not yet been evaluated the Bechdel test.
-
 ```{r, warning=FALSE, messages = FALSE}
 #Making the table for Oscar winning, female directed movies. 
 library(knitr)
@@ -186,6 +156,49 @@ Oscars_directors_info <- movie_f_directors %>%
 
 Oscars_directors_info 
 ```
+
+```{r, warning=FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
+#Graphic of the percentage of best film nominees that pass the Bechdel test
+#It should also be noted that a few films from the early 1990s had to be omitted due to them not yet being classified
+year <- c(2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990)
+percent_passing <- c(0.44, 0.5, 0.5, 0.67, 0.78, 0.44, 0.8, 0.3, 0.2, 0.6, 0.6, 0.4, 0.8, 0.4, 0.4, 0.5, 0.8, 0.75, 0.4, 0.4, 0.75, 0.75, 0.4, 0.4, 0.4, 1.00, 0.75)
+bechdel_all_films <- data.frame(year, percent_passing)
+
+bechdel_graph_best_film <- ggplot(bechdel_all_films, aes(x = year, y = percent_passing, fill = percent_passing)) + geom_bar(stat = "identity") + scale_fill_gradient(low="red", high="green") +
+  theme_bw() +
+  ylab("% of films that passed the Bechdel test") + 
+  xlab("Award Year") + 
+  ggtitle("Nominated for Best Film and Passing the Bechdel Test") + theme(text=element_text(family="Times")) + scale_y_continuous(labels = scales::percent) + theme(legend.position="none")
+
+bechdel_annotated <- bechdel_graph_best_film +
+  annotate("text", x = 2000, y = 0.90, label = "George W. Bush elected", size = 3) +
+  geom_segment(aes(x = 2000, y = 0.8, xend = 2000, yend = 0.88)) +
+  annotate("text", x = 2015, y = 0.63, label = "Donald Trump", size = 3) +
+  annotate("text", x = 2015, y = 0.6, label = "announces candidacy", size = 3) +
+  geom_segment(aes(x = 2015, y = 0.5, xend = 2015, yend = 0.58)) +
+  annotate("text", x = 1992, y = 0.5, label = "Bill Clinton elected", size = 3) + 
+  geom_segment(aes(x = 1992, y = 0.4, xend = 1992, yend = 0.48)) +
+  annotate("text", x = 2008, y = 0.3, label = "Barack Obama elected", size = 3) + 
+  geom_segment(aes(x = 2008, y = 0.2, xend = 2008, yend = 0.28)) +
+  annotate("text", x = 2004, y = 0.85, label = "Presidential election, John Kerry", size = 3) +
+  geom_segment(aes(x = 2004, y = 0.8, xend = 2004, yend = 0.84)) +
+  annotate("text", x = 2011, y = 0.52, label = "Republican primary campaigning begins", size = 3) +
+  geom_segment(aes(x = 2011, y = 0.44, xend = 2011, yend = 0.5)) + 
+  labs(caption = "Percentages of female Best Picture nominees from 1990 onward that passed the Bechdel test. Major events relating to presidential candidacies and elections are also noted. Any film that has not yet been classified as passing or failing the Bechdel test has been omitted.")
+
+bechdel_annotated
+```
+
+
+This might lead to the logical jump forward that women’s work in Hollywood is also being celebrated with a greater frequency. With this in mind we examined movies that have received Best Picture nominations at the Oscars… Our findings were abysmally sad with there only being 12 films in the history of the Oscars to be directed by a woman and nominated for Best Picture. Even more upsetting is that none of these movies ever won Best Picture.
+
+All of our data analysis thus far brought us to the Bechdel test, The Bechdel test is the result of a 1985 comic and is a simple test to see if a film has some level of gender equality. The test has three criteria:
+1. The film has two women
+2. The two women talk to each other
+3. The women talk to each other about something other than a man/men.
+Based on user-generated data on the Bechdel test’s website less than 60% of films analyzed have passed the test and if you omit data from films in the past few decades the numbers are much lower.
+
+In contrast to the overall low passing rate of the Bechdel test, 90% of the female directed nominees for Best Picture pass the Bechdel test. Here you can see the same percentage graph from earlier with the female directed nominees denoted with round points. Points in green passed the Bechdel test, the point in red failed, and the point in yellow has not yet been evaluated the Bechdel test.
 
 So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
 
