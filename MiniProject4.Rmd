@@ -112,21 +112,8 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   xlab("Production Year") + 
   ggtitle("Annual Percentage of Female Directed Films") +
   geom_line() + 
-  labs(caption = "Percentages of female directed films by year. The red, yellow, and green points represent years where female directed films were nominated for Oscar's Best Picture award. Furthermore, 
-the colors represent whether the nominated film passed the Bechdel test; green stands for passed, yellow represents uncategorized, and red means failed.") +
+  labs(caption = "Percentages of female directed films by year.") +
   theme(plot.caption = element_text(hjust=0, size=8)) +
-  geom_point(x = 2009, y = 6.7915106, colour = "green", size = 3) + 
-  geom_point(x = 1990, y = 4.7560976, colour = "green", size = 3) + 
-  geom_point(x = 1986, y = 4.4626021, colour = "green", size = 3) + 
-  geom_point(x = 2006, y = 7.4663403, colour = "green", size = 3) + 
-  geom_point(x = 2003, y = 5.7618438, colour = "green", size = 3) + 
-  geom_point(x = 2014, y = 7.4427931, colour = "green", size = 3) + 
-  geom_point(x = 2008, y = 7.2944297, colour = "red", size = 3) + 
-  geom_point(x = 2010, y = 6.8467337, colour = "green", size = 3) + 
-  geom_point(x = 1993, y = 4.1348601, colour = "green", size = 3) + 
-  geom_point(x = 1991, y = 5.7571965, colour = "yellow", size = 3) + 
-  geom_point(x = 2010, y = 16, colour = "green", size = 3) + 
-  geom_point(x = 2012, y = 7.0727195, colour = "green", size = 3) + 
   scale_y_continuous(limits = c(0, 9)) + 
   scale_x_continuous(limits = c(1985, 2016)) + theme(text=element_text(family="Times"))
 
