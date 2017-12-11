@@ -10,7 +10,7 @@ output:
     fig_height: 2.5
     figure_caption: true
 ---
-```{r Data Wrangling, error=FALSE, message=FALSE, warnings = FALSE}
+```{r Data Wrangling, message=FALSE, warnings = FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
