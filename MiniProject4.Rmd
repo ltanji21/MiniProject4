@@ -10,7 +10,7 @@ output:
     fig_height: 2.5
     figure_caption: true
 ---
-```{r Data Wrangling, message=FALSE, warnings = FALSE}
+```{r Data Wrangling, error=FALSE, message=FALSE, warnings = FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
 suppressMessages(library(RMySQL))
@@ -157,7 +157,7 @@ Oscars_directors_info <- movie_f_directors %>%
 Oscars_directors_info 
 ```
 
-```{r, warning=FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
+```{r, message=FALSE, warning=FALSE, error = FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
 #Graphic of the percentage of best film nominees that pass the Bechdel test
 #It should also be noted that a few films from the early 1990s had to be omitted due to them not yet being classified
 year <- c(2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990)
@@ -184,7 +184,9 @@ bechdel_annotated <- bechdel_graph_best_film +
   geom_segment(aes(x = 2004, y = 0.8, xend = 2004, yend = 0.84)) +
   annotate("text", x = 2011, y = 0.52, label = "Republican primary campaigning begins", size = 3) +
   geom_segment(aes(x = 2011, y = 0.44, xend = 2011, yend = 0.5)) + 
-  labs(caption = "Percentages of female Best Picture nominees from 1990 onward that passed the Bechdel test. Major events relating to presidential candidacies and elections are also noted. Any film that has not yet been classified as passing or failing the Bechdel test has been omitted.")
+  labs(caption = "Percentages of female Best Picture nominees from 1990 onward that passed the Bechdel test. Major events relating to presidential candidacies and elections are also noted. Any film that has
+not yet been classified as passing or failing the Bechdel test has been omitted.") +
+  theme(plot.caption = element_text(hjust=0, size=8)) + theme(text=element_text(family="Times"))
 
 bechdel_annotated
 ```
