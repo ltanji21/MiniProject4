@@ -115,33 +115,10 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   labs(caption = "Percentages of female directed films by year.") +
   theme(plot.caption = element_text(hjust=0, size=8)) +
   scale_y_continuous(limits = c(0, 9)) + 
-  scale_x_continuous(limits = c(1985, 2016)) + theme(text=element_text(family="Times"))
+  scale_x_continuous(limits = c(1920, 2016)) + theme(text=element_text(family="Times"))
 
 
 female_director_graph_best_film
-```
-```{r, warning=FALSE, messages = FALSE}
-#Making the table for Oscar winning, female directed movies. 
-library(knitr)
-library(kableExtra)
-
-Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
-"4404940", "3890366", "3280928", "3314581")
-
-Passed <- c(1, 2, 4, 5, 6, 8, 9, 10, 11, 12)
-
-Oscars_directors_info <- movie_f_directors %>%
-  filter(movie_id %in% Oscar_Winners, gender == "f") %>%
-  ungroup() %>%
-  arrange(production_year) %>% 
-  select(production_year, title, name) %>%
-  rename("Production Year" = production_year, Name = name, Title = title) %>%
-  kable("html") %>%
-  kable_styling(bootstrap_options = "striped") %>%
-  row_spec(Passed, color = "white", background = "green") %>%
-  row_spec(7, color = "white", background = "red")
-
-Oscars_directors_info 
 ```
 
 ```{r, message=FALSE, warning=FALSE, error = FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
@@ -191,6 +168,29 @@ In contrast to the overall low passing rate of the Bechdel test, 90% of the fema
 
 So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
 
+```{r, warning=FALSE, messages = FALSE}
+#Making the table for Oscar winning, female directed movies. 
+library(knitr)
+library(kableExtra)
+
+Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
+"4404940", "3890366", "3280928", "3314581")
+
+Passed <- c(1, 2, 4, 5, 6, 8, 9, 10, 11, 12)
+
+Oscars_directors_info <- movie_f_directors %>%
+  filter(movie_id %in% Oscar_Winners, gender == "f") %>%
+  ungroup() %>%
+  arrange(production_year) %>% 
+  select(production_year, title, name) %>%
+  rename("Production Year" = production_year, Name = name, Title = title) %>%
+  kable("html") %>%
+  kable_styling(bootstrap_options = "striped") %>%
+  row_spec(Passed, color = "white", background = "green") %>%
+  row_spec(7, color = "white", background = "red")
+
+Oscars_directors_info 
+```
 
 
 
