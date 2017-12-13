@@ -98,10 +98,11 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
 ```
 
 ![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
+Some of the female directors in holywood[^1]
 
-As Charlize Theron defies her cult leader *in Mad Max: Fury Road* and Gal Gadot smashes the god of war in *Wonder Woman*, women seem to have finally found their place in Hollywood. However, the fictional women on screen only shroud the substantial struggle for recognition of the women the behind the scenes. In 2017, female directors are still the marginalized minority. 
+As Charlize Theron defies her cult leader in Mad Max: Fury Road and Gal Gadot smashes the god of war in Wonder Woman, women seem to have finally found their place in Hollywood. However, the fictional women on screen only shroud the substantial struggle for recognition of the women behind the scenes. In 2017, [female directors](http://www.vulture.com/2015/10/100-women-directors-hollywood-should-be-hiring.html) are still the marginalized minority.
 
-Here we have a graph that shows the percentage of films being released each year that have female directors. As of yet we can not explain the spike around 1900 but we hypothesize that this is a product of the film industries using different classifications in the early 1900s. If we ignore the spike in the 1900s, there is a general positive trend. Women are directing more and more movies, which is a great step forward.
+Throughout film history, female directed films have been, at most, 7.9% of all films produced in the 20th century. However, as the women’s rights movement gained momentum, female directed films become more prevalent. The ratification of the 19th amendment, or the women’s right to vote, in 1920 was marked by a whopping 5% of the movies being directed by women. This glass ceiling isn’t shattered again until 1988, right after the ___ . The sharp rise in female directed film seems to keep going from 1975 to 2000 when suddenly 
 
 ```{r, error=FALSE, message=FALSE, warning=FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
 #Graphic of Oscar best film wining movies by female directors. 
@@ -144,6 +145,39 @@ Corporation is Founded", size = 3) +
 female_director_graph_best_film
 ```
 
+Even though there has been a slow rise in female directors in the film industry this is not a guarantee that movies include women on this string. This brings us to the Bechdel test, named after Alison Bechdel who first introduced the test in one of her comic strips. The test is rather simple and has three criteria for a film to pass. First, the film must have at least two female characters. Second, these two female characters must talk to each other. Third, these female characters must talk to each other about something other than men. The test sounds simple enough, but of the almost 7500 films that have been analyzed, a little under 60% passed.[^3] This raises the point that point that the lack of female-representation in Hollywood is a multi-faceted problem that extends beyond the number of female directors.
+
+![The comic that started it all.](https://upload.wikimedia.org/wikipedia/en/b/bf/Dykes_to_Watch_Out_For_%28Bechdel_test_origin%29.jpg)
+The comic that started it all.[^4]
+
+When looking at films that have received critical acclaim, specifically been nominated for the Academy Award for Best Picture,[^4] and been directed by women, a new narrative forms. Among the 12 films that have been nominated, 10 pass the Bechdel test, one fails, and one has not yet been categorized. You can see these films listed below, which we encourage you to watch and support.
+
+```{r, warning=FALSE, messages = FALSE}
+#Making the table for Oscar winning, female directed movies. 
+library(knitr)
+library(kableExtra)
+
+Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
+"4404940", "3890366", "3280928", "3314581")
+
+Passed <- c(1, 2, 4, 5, 6, 8, 9, 10, 11, 12)
+
+Oscars_directors_info <- movie_f_directors %>%
+  filter(movie_id %in% Oscar_Winners, gender == "f") %>%
+  ungroup() %>%
+  arrange(production_year) %>% 
+  select(production_year, title, name) %>%
+  rename("Production Year" = production_year, Name = name, Title = title) %>%
+  kable("html") %>%
+  kable_styling(bootstrap_options = "striped") %>%
+  row_spec(Passed, color = "white", background = "green") %>%
+  row_spec(7, color = "white", background = "red")
+
+Oscars_directors_info 
+```
+
+This might make you think that in general films receiving critical acclaim do a better job at passing the Bechdel test. Unfortunately, that is not the case. Looking at all Best Picture nominees from 1990 onwards, a trend of fluctuation emerges. In 1990 100% of the nominees passed the Bechdel test. In contrast, in 2008 a mere 20% of the nominees passed.
+
 ```{r, message=FALSE, warning=FALSE, error = FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
 #Graphic of the percentage of best film nominees that pass the Bechdel test
 #It should also be noted that a few films from the early 1990s had to be omitted due to them not yet being classified
@@ -178,43 +212,20 @@ not yet been classified as passing or failing the Bechdel test has been omitted.
 bechdel_annotated
 ```
 
+Somewhat surprisingly, this trend of fluctuation seems to correspond well with U.S. politics, more specifically presidential elections. During Bill Clinton’s presidency, one of the first spikes in Best Picture nominees passing the Bechdel test emerges. After George W. Bush is elected, the percentage of films passing takes a nosedive, only spiking during 2004 when Democratic nominees John Kerry was a frequent part of the political dialogue. As Bush’s presidency continue, numbers stay low, dipping the lowest in 2008 when Barack Obama is elected. Following Obama’s election, the percentage of films goes up, only dipping during the year of Republican primary campaigning (2011). As Obama’s presidency begins to wrap up and Donald Trump announces his candidacy, things get worse and worse. While we don’t yet know his films during Trump’s first year of presidency will do, [things are not looking hopeful](https://www.washingtonpost.com/amphtml/national/no-female-directors-big-sick-and-other-globes-surprises/2017/12/11/df470cba-dea9-11e7-b2e9-8c636f076c76_story.html). Our political climate and dialogue appears to drive the presence (and absence) of women in the media we consume.
 
-This might lead to the logical jump forward that women’s work in Hollywood is also being celebrated with a greater frequency. With this in mind we examined movies that have received Best Picture nominations at the Oscars… Our findings were abysmally sad with there only being 12 films in the history of the Oscars to be directed by a woman and nominated for Best Picture. Even more upsetting is that none of these movies ever won Best Picture.
+The Bechdel test is not perfect, and extremely progressive films like [Brokeback Mountain](https://en.wikipedia.org/wiki/Brokeback_Mountain) fail the test. However the test gives us a good idea of how the film industry is treating women, and right now they are not treating us well. As Robin Morgan writes:
+> “More than any other time in history, that force [feminism] is needed to save this imperiled blue planet. Feminism, for me, is the politics of the 21st century.”[^5]
 
-All of our data analysis thus far brought us to the Bechdel test, The Bechdel test is the result of a 1985 comic and is a simple test to see if a film has some level of gender equality. The test has three criteria:
-1. The film has two women
-2. The two women talk to each other
-3. The women talk to each other about something other than a man/men.
-Based on user-generated data on the Bechdel test’s website less than 60% of films analyzed have passed the test and if you omit data from films in the past few decades the numbers are much lower.
+With this in mind we need to take the force that is feminism and support women in an industry that constantly ignores them. When you can financially support films that have women directing and producing them, and that include women in their narratives.
 
-In contrast to the overall low passing rate of the Bechdel test, 90% of the female directed nominees for Best Picture pass the Bechdel test. Here you can see the same percentage graph from earlier with the female directed nominees denoted with round points. Points in green passed the Bechdel test, the point in red failed, and the point in yellow has not yet been evaluated the Bechdel test.
+[^1]:http://www.vulture.com/2015/10/100-women-directors-hollywood-should-be-hiring.html
+[^2]:https://bechdeltest.com/statistics/
+[^3]:https://upload.wikimedia.org/wikipedia/en/b/bf/Dykes_to_Watch_Out_For_%28Bechdel_test_origin%29.jpg
+[^4]:https://en.wikipedia.org/wiki/Academy_Award_for_Best_Picture
+[^5]:http://time.com/3588846/time-apologizes-feminist-word-poll-robin-morgan/
 
-So what can we do based on this data? One important thing is to recognize and support movies that have females in important off-screen roles like director, writer and producer. Show movie companies that you want to see women involved in not just movies in general but also the big budget films that often end up receiving critical acclaim.
-
-```{r, warning=FALSE, messages = FALSE}
-#Making the table for Oscar winning, female directed movies. 
-library(knitr)
-library(kableExtra)
-
-Oscar_Winners <- c("3420538", "3901612", "4200072", "4369038", "4374245", "4408215", "4565524", "4590482",
-"4404940", "3890366", "3280928", "3314581")
-
-Passed <- c(1, 2, 4, 5, 6, 8, 9, 10, 11, 12)
-
-Oscars_directors_info <- movie_f_directors %>%
-  filter(movie_id %in% Oscar_Winners, gender == "f") %>%
-  ungroup() %>%
-  arrange(production_year) %>% 
-  select(production_year, title, name) %>%
-  rename("Production Year" = production_year, Name = name, Title = title) %>%
-  kable("html") %>%
-  kable_styling(bootstrap_options = "striped") %>%
-  row_spec(Passed, color = "white", background = "green") %>%
-  row_spec(7, color = "white", background = "red")
-
-Oscars_directors_info 
-```
-
+[Git repository used for this assignment](https://github.com/ltanji21/MiniProject4/blob/master/MiniProject4.Rmd)
 
 
 
