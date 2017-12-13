@@ -121,18 +121,20 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   geom_segment(aes(x = 1939, y = 0.7, xend = 1939, yend = 1.8)) +
   annotate("text", x = 1945, y = 0, label = "WWII Ends", size = 3) +
   geom_segment(aes(x = 1945, y = 0.2, xend = 1945, yend = 0.7)) +
-  annotate("text", x = 1949, y = 3, label = "Simon de Beauvoir's The 
-           Second Sex is Published", size = 3) +
-  geom_segment(aes(x = 1946, y = 2.6, xend = 1946, yend = 0.6)) +
+  annotate("text", x = 1946, y = 3.4, label = "Simon de Beauvoir's The 
+Second Sex is Published", size = 3) +
+  geom_segment(aes(x = 1946, y = 3, xend = 1946, yend = 0.6)) +
   annotate("text", x = 1966, y = 4.5, label = "Natonal Organization for Women is born", size = 3) +
-  geom_segment(aes(x = 1966, y = 1.37, xend = 1966, yend = 3.8)) +
-  annotate("text", x = 1965, y = 0, label = "First Oral Contraceptive is Approved by The FDA", size = 3) +
-  geom_segment(aes(x = 1960, y = 0.2, xend = 1960, yend = 0.94)) +
-  annotate("text", x = 1969, y = 3.4, label = "Legalization of 
-        Birth Control to All", size = 3) +
-  geom_segment(aes(x = 1970, y = 1.04, xend = 1970, yend = 3)) +
-  annotate("text", x = 1984, y = 1.5, label = "The Guerrilla Girls are Formed", size = 3) +
-  geom_segment(aes(x = 1984, y = 1.06, xend = 1984, yend = 1.5)) 
+  geom_segment(aes(x = 1966, y = 1.37, xend = 1966, yend = 4.3)) +
+  annotate("text", x = 1960, y = 0, label = "First Oral Contraceptive 
+is Approved by The FDA", size = 3) +
+  geom_segment(aes(x = 1960, y = 0.4, xend = 1960, yend = 0.94)) +
+  annotate("text", x = 1972, y = 3.4, label = "Legalization of 
+Birth Control to All", size = 3) +
+  geom_segment(aes(x = 1970, y = 1.2, xend = 1970, yend = 3)) +
+  annotate("text", x = 1984, y = 1.5, label = "The Guerrilla Girls 
+are Formed", size = 3) +
+  geom_segment(aes(x = 1984, y = 1.9, xend = 1984, yend = 3.6)) 
 
 female_director_graph_best_film
 ```
