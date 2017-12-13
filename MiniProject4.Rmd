@@ -115,8 +115,24 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   labs(caption = "Percentages of female directed films by year.") +
   theme(plot.caption = element_text(hjust=0, size=8)) +
   scale_y_continuous(limits = c(0, 9)) + 
-  scale_x_continuous(limits = c(1920, 2016)) + theme(text=element_text(family="Times"))
-
+  scale_x_continuous(limits = c(1920, 2016)) + theme(text=element_text(family="Times")) +
+  annotate("text", x = 1926, y = 5.5, label = "2nd Woman elected into Congress", size = 3) +
+  annotate("text", x = 1939, y = 2, label = "WWII starts", size = 3) + 
+  geom_segment(aes(x = 1939, y = 0.7, xend = 1939, yend = 1.8)) +
+  annotate("text", x = 1945, y = 0, label = "WWII Ends", size = 3) +
+  geom_segment(aes(x = 1945, y = 0.2, xend = 1945, yend = 0.7)) +
+  annotate("text", x = 1949, y = 3, label = "Simon de Beauvoir's The 
+           Second Sex is Published", size = 3) +
+  geom_segment(aes(x = 1946, y = 2.6, xend = 1946, yend = 0.6)) +
+  annotate("text", x = 1966, y = 4.5, label = "Natonal Organization for Women is born", size = 3) +
+  geom_segment(aes(x = 1966, y = 1.37, xend = 1966, yend = 3.8)) +
+  annotate("text", x = 1965, y = 0, label = "First Oral Contraceptive is Approved by The FDA", size = 3) +
+  geom_segment(aes(x = 1960, y = 0.2, xend = 1960, yend = 0.94)) +
+  annotate("text", x = 1969, y = 3.4, label = "Legalization of 
+        Birth Control to All", size = 3) +
+  geom_segment(aes(x = 1970, y = 1.04, xend = 1970, yend = 3)) +
+  annotate("text", x = 1984, y = 1.5, label = "The Guerrilla Girls are Formed", size = 3) +
+  geom_segment(aes(x = 1984, y = 1.06, xend = 1984, yend = 1.5)) 
 
 female_director_graph_best_film
 ```
@@ -132,7 +148,7 @@ bechdel_graph_best_film <- ggplot(bechdel_all_films, aes(x = year, y = percent_p
   theme_bw() +
   ylab("% of films that passed the Bechdel test") + 
   xlab("Award Year") + 
-  ggtitle("Nominated for Best Film and Passing the Bechdel Test") + theme(text=element_text(family="Times")) + scale_y_continuous(labels = scales::percent) + theme(legend.position="none")
+  ggtitle("Nominated for Picture and Passing the Bechdel Test") + theme(text=element_text(family="Times")) + scale_y_continuous(labels = scales::percent) + theme(legend.position="none")
 
 bechdel_annotated <- bechdel_graph_best_film +
   annotate("text", x = 2000, y = 0.90, label = "George W. Bush elected", size = 3) +
