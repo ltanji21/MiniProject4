@@ -130,8 +130,8 @@ Second Sex is Published", size = 3) +
 is Approved by The FDA", size = 3) +
   geom_segment(aes(x = 1960, y = 0.4, xend = 1960, yend = 0.94)) +
   annotate("text", x = 1972, y = 3.4, label = "Legalization of 
-Birth Control to All", size = 3) +
-  geom_segment(aes(x = 1970, y = 1.2, xend = 1970, yend = 3)) +
+Birth Control For All", size = 3) +
+  geom_segment(aes(x = 1970, y = 1.06, xend = 1970, yend = 3)) +
   annotate("text", x = 1984, y = 1.5, label = "The Guerrilla Girls 
 are Formed", size = 3) +
   geom_segment(aes(x = 1984, y = 1.9, xend = 1984, yend = 3.6)) 
