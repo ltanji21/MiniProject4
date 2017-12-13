@@ -134,7 +134,12 @@ Birth Control For All", size = 3) +
   geom_segment(aes(x = 1970, y = 1.06, xend = 1970, yend = 3)) +
   annotate("text", x = 1984, y = 1.5, label = "The Guerrilla Girls 
 are Formed", size = 3) +
-  geom_segment(aes(x = 1984, y = 1.9, xend = 1984, yend = 3.6)) 
+  geom_segment(aes(x = 1984, y = 1.9, xend = 1984, yend = 3.6)) +
+  annotate("text", x = 1990, y = 7.5, label = "Third Wave Direct Action 
+Corporation is Founded", size = 3) +
+  geom_segment(aes(x = 1992, y = 5.69, xend = 1992, yend = 7)) +
+  annotate("text", x = 2001, y = 9, label = "9/11 Attacks", size = 3) +
+  geom_segment(aes(x = 2001, y = 7.9, xend = 2001, yend = 8.8)) 
 
 female_director_graph_best_film
 ```
