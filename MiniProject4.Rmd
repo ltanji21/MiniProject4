@@ -10,6 +10,8 @@ output:
     fig_height: 2.5
     figure_caption: true
 ---
+![Photo-illustration: Maya Robinson and Photos by Getty Images. Some of the female directors in holywood[^1]](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
+
 ```{r Data Wrangling, message=FALSE, warnings = FALSE}
 #loading libraries
 suppressMessages(library(mdsr))
@@ -96,13 +98,9 @@ female_director_graph <- ggplot(female_director_ratio, aes(x = production_year, 
   ggtitle("percentage of films produced by women per year") +
   geom_line() + theme(text=element_text(family="Times"))
 ```
+As Charlize Theron defies her cult leader in *Mad Max: Fury Road* and Gal Gadot smashes the god of war in *Wonder Woman*, women seem to have finally found their place in Hollywood. However, the fictional women on screen only shroud the substantial struggle for recognition of the women behind the scenes.[^2] In 2017, [female directors](http://www.vulture.com/2015/10/100-women-directors-hollywood-should-be-hiring.html) are still the marginalized minority.[^3]
 
-![Photo-illustration: Maya Robinson and Photos by Getty Images](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
-Some of the female directors in holywood[^1]
-
-As Charlize Theron defies her cult leader in Mad Max: Fury Road and Gal Gadot smashes the god of war in Wonder Woman, women seem to have finally found their place in Hollywood. However, the fictional women on screen only shroud the substantial struggle for recognition of the women behind the scenes. In 2017, [female directors](http://www.vulture.com/2015/10/100-women-directors-hollywood-should-be-hiring.html) are still the marginalized minority.
-
-Throughout film history, female directed films have been, at most, 7.9% of all films produced in the 20th century. However, as the women’s rights movement gained momentum, female directed films become more prevalent. The ratification of the 19th amendment, or the women’s right to vote, in 1920 was marked by a whopping 5% of the movies being directed by women. This glass ceiling isn’t shattered again until 1988, right after the ___ . The sharp rise in female directed film seems to keep going from 1975 to 2000 when suddenly 
+Throughout the 20th and 21st century, female directed films have been, at most, 7.9% of films produced each year. These dismal percentages echo the fight against female discrimination throughout history. When the 19th amendment was ratified in 1920, giving women the right to vote, a whopping 5.1% of the movies that year were directed by women. That record was not surpassed again until 1988, or 68 years later, after World War II.[^4] 
 
 ```{r, error=FALSE, message=FALSE, warning=FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
 #Graphic of Oscar best film wining movies by female directors. 
@@ -113,7 +111,6 @@ female_director_graph_best_film <- ggplot(female_director_ratio, aes(x = product
   xlab("Production Year") + 
   ggtitle("Annual Percentage of Female Directed Films") +
   geom_line() + 
-  labs(caption = "Percentages of female directed films by year.") +
   theme(plot.caption = element_text(hjust=0, size=8)) +
   scale_y_continuous(limits = c(0, 9)) + 
   scale_x_continuous(limits = c(1920, 2016)) + theme(text=element_text(family="Times")) +
@@ -144,15 +141,21 @@ Corporation is Founded", size = 3) +
 
 female_director_graph_best_film
 ```
+  **Figure 1.** Percentages of female directed films by year.
 
-Even though there has been a slow rise in female directors in the film industry this is not a guarantee that movies include women on this string. This brings us to the Bechdel test, named after Alison Bechdel who first introduced the test in one of her comic strips. The test is rather simple and has three criteria for a film to pass. First, the film must have at least two female characters. Second, these two female characters must talk to each other. Third, these female characters must talk to each other about something other than men. The test sounds simple enough, but of the almost 7500 films that have been analyzed, a little under 60% passed.[^3] This raises the point that point that the lack of female-representation in Hollywood is a multi-faceted problem that extends beyond the number of female directors.
 
-![The comic that started it all.](https://upload.wikimedia.org/wikipedia/en/b/bf/Dykes_to_Watch_Out_For_%28Bechdel_test_origin%29.jpg)
-The comic that started it all.[^4]
+Simon de Bouvoir’s [*The Second Sex*](http://www.nytimes.com/2010/05/30/books/excerpt-introduction-second-sex.html) fueled the second wave of feminism spanning through the 1960s to 70s.[^5] This time, the movement focused on establishing workplace equality, which spurred the invention of the birth control pill.[^6] The legalization of the pill to everyone, 10 years after its approval by the FDA, allowed women to access the training and education required to have professional careers.[^7] As an affect, the percentage of female directed films soared. In 2001, female directors had produced 7.9% of movies that year. The 5% glass ceiling was finally shattered. 
 
-When looking at films that have received critical acclaim, specifically been nominated for the Academy Award for Best Picture,[^4] and been directed by women, a new narrative forms. Among the 12 films that have been nominated, 10 pass the Bechdel test, one fails, and one has not yet been categorized. You can see these films listed below, which we encourage you to watch and support.
+Even though there has been a slow rise in female directors in the film industry this is not a guarantee that movies include women on this string. This brings us to the Bechdel test, named after Alison Bechdel who first introduced the test in one of her comic strips. The test is rather simple and has three criteria for a film to pass. First, the film must have at least two female characters. Second, these two female characters must talk to each other. Third, these female characters must talk to each other about something other than men. The test sounds simple enough, but of the almost 7500 films that have been analyzed, a little under 60% passed.[^8] This raises the point that point that the lack of female-representation in Hollywood is a multi-faceted problem that extends beyond the number of female directors.
 
-```{r, warning=FALSE, messages = FALSE}
+
+![**Figure 2** 1985 comic strip from *Dykes to Watch Out For* by Alison Bechdel that started the Bechdel Test.](https://upload.wikimedia.org/wikipedia/en/b/bf/Dykes_to_Watch_Out_For_%28Bechdel_test_origin%29.jpg)
+
+
+
+When looking at films that have received critical acclaim, specifically been nominated for the Academy Award for Best Picture,[^9] and been directed by women, a new narrative forms. Among the 12 films that have been nominated, 10 pass the Bechdel test, one fails, and one has not yet been categorized. You can see these films listed below, which we encourage you to watch and support.
+
+```{r, warning=FALSE, messages = FALSE,  message=FALSE, warning=FALSE, error = FALSE, fig.width= 10, fig.height= 5, fig.align="center"}
 #Making the table for Oscar winning, female directed movies. 
 library(knitr)
 library(kableExtra)
@@ -173,8 +176,10 @@ Oscars_directors_info <- movie_f_directors %>%
   row_spec(Passed, color = "white", background = "green") %>%
   row_spec(7, color = "white", background = "red")
 
-Oscars_directors_info 
+Oscars_directors_info
 ```
+**Figure 3.** Table of Oscar's Best Film nominated films directed by women. The green movies have passed the Bechdel Test, white movies are not classified, and red films failed the Bechdel Test.
+
 
 This might make you think that in general films receiving critical acclaim do a better job at passing the Bechdel test. Unfortunately, that is not the case. Looking at all Best Picture nominees from 1990 onwards, a trend of fluctuation emerges. In 1990 100% of the nominees passed the Bechdel test. In contrast, in 2008 a mere 20% of the nominees passed.
 
@@ -204,26 +209,34 @@ bechdel_annotated <- bechdel_graph_best_film +
   annotate("text", x = 2004, y = 0.85, label = "Presidential election, John Kerry", size = 3) +
   geom_segment(aes(x = 2004, y = 0.8, xend = 2004, yend = 0.84)) +
   annotate("text", x = 2011, y = 0.52, label = "Republican primary campaigning begins", size = 3) +
-  geom_segment(aes(x = 2011, y = 0.44, xend = 2011, yend = 0.5)) + 
-  labs(caption = "Percentages of female Best Picture nominees from 1990 onward that passed the Bechdel test. Major events relating to presidential candidacies and elections are also noted. Any film that has
-not yet been classified as passing or failing the Bechdel test has been omitted.") +
+  geom_segment(aes(x = 2011, y = 0.44, xend = 2011, yend = 0.5)) +
   theme(plot.caption = element_text(hjust=0, size=8)) + theme(text=element_text(family="Times"))
 
 bechdel_annotated
 ```
+**Figure 4.** Percentages of female Best Picture nominees from 1990 onward that passed the Bechdel test. Major events relating to presidential candidacies and elections are also noted. Any film that has
+not yet been classified as passing or failing the Bechdel test has been omitted.
 
 Somewhat surprisingly, this trend of fluctuation seems to correspond well with U.S. politics, more specifically presidential elections. During Bill Clinton’s presidency, one of the first spikes in Best Picture nominees passing the Bechdel test emerges. After George W. Bush is elected, the percentage of films passing takes a nosedive, only spiking during 2004 when Democratic nominees John Kerry was a frequent part of the political dialogue. As Bush’s presidency continue, numbers stay low, dipping the lowest in 2008 when Barack Obama is elected. Following Obama’s election, the percentage of films goes up, only dipping during the year of Republican primary campaigning (2011). As Obama’s presidency begins to wrap up and Donald Trump announces his candidacy, things get worse and worse. While we don’t yet know his films during Trump’s first year of presidency will do, [things are not looking hopeful](https://www.washingtonpost.com/amphtml/national/no-female-directors-big-sick-and-other-globes-surprises/2017/12/11/df470cba-dea9-11e7-b2e9-8c636f076c76_story.html). Our political climate and dialogue appears to drive the presence (and absence) of women in the media we consume.
 
-The Bechdel test is not perfect, and extremely progressive films like [Brokeback Mountain](https://en.wikipedia.org/wiki/Brokeback_Mountain) fail the test. However the test gives us a good idea of how the film industry is treating women, and right now they are not treating us well. As Robin Morgan writes:
-> “More than any other time in history, that force [feminism] is needed to save this imperiled blue planet. Feminism, for me, is the politics of the 21st century.”[^5]
+The Bechdel test is not perfect, and extremely progressive films like [*Brokeback Mountain*](https://en.wikipedia.org/wiki/Brokeback_Mountain) fail the test. However the test gives us a good idea of how the film industry is treating women, and right now they are not treating us well. As Robin Morgan writes:
+
+> “More than any other time in history, that force [feminism] is needed to save this imperiled blue planet. Feminism, for me, is the politics of the 21st century.”[^10]
 
 With this in mind we need to take the force that is feminism and support women in an industry that constantly ignores them. When you can financially support films that have women directing and producing them, and that include women in their narratives.
 
-[^1]:http://www.vulture.com/2015/10/100-women-directors-hollywood-should-be-hiring.html
-[^2]:https://bechdeltest.com/statistics/
-[^3]:https://upload.wikimedia.org/wikipedia/en/b/bf/Dykes_to_Watch_Out_For_%28Bechdel_test_origin%29.jpg
-[^4]:https://en.wikipedia.org/wiki/Academy_Award_for_Best_Picture
-[^5]:http://time.com/3588846/time-apologizes-feminist-word-poll-robin-morgan/
+#References
+[^1]:www.vulture.com/2015/10/100-women-directors-hollywood-should-be-hiring.html
+[^2]:https://www.forbes.com/sites/scottmendelson/2016/11/28/female-directors-dont-need-experience-they-just-need-to-get-hired/#13dccc6b50e8
+[^3]:https://womeninfilm.org/about-wif/
+[^4]:https://www.britannica.com/topic/womens-movement
+[^5]:https://www.britannica.com/topic/womens-movement
+[^6]:https://www.ourbodiesourselves.org/health-info/a-brief-history-of-birth-control/
+[^7]:https://tavaana.org/en/content/1960s-70s-american-feminist-movement-breaking-down-barriers-women
+[^8]:https://bechdeltest.com/statistics/
+[^9]:https://upload.wikimedia.org/wikipedia/en/b/bf/Dykes_to_Watch_Out_For_%28Bechdel_test_origin%29.jpg
+[^10]:https://en.wikipedia.org/wiki/Academy_Award_for_Best_Picture
+[^11]:http://time.com/3588846/time-apologizes-feminist-word-poll-robin-morgan/
 
 [Git repository used for this assignment](https://github.com/ltanji21/MiniProject4/blob/master/MiniProject4.Rmd)
 
