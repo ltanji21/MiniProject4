@@ -1,15 +1,16 @@
 ---
 title: "The Ignored Women of Hollywood"
 author: "Leigh Tanji, Samantha Bryce"
-date: '`r format(Sys.Date(), "%B %e, %Y")`'
-output: 
-  html_document:
-    theme: "journal"
+date: "`r format(Sys.Date(), "%B %e, %Y")`"
+output:
+  output_format: html_document
     code_folding: hide
-    fig_width: 6 
     fig_height: 2.5
-    figure_caption: true
+    fig_width: 6
+    figure_caption: yes
+    theme: journal
 ---
+
 ![](http://pixel.nymag.com/imgs/daily/vulture/2015/11/02/02-female-directors-lede-3.jpg)
 Photo-illustration: Maya Robinson and Photos by Getty Images. Some of the female directors in holywood.[^1]
 
